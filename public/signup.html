@@ -37,20 +37,15 @@
   .btn:disabled{opacity:0.4;pointer-events:none;}
   .terms{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;color:var(--muted);text-align:center;margin-top:16px;line-height:1.6;}
   .success{display:none;}
-  .success-icon{width:48px;height:48px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:20px;}
-  .success h2{font-family:'Raleway',sans-serif;font-weight:200;font-size:24px;text-align:center;margin-bottom:8px;}
-  .success .sub{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-align:center;margin-bottom:32px;letter-spacing:0.08em;}
-  .api-key-box{background:var(--surface2);border:1px solid rgba(16,185,129,0.3);padding:20px;margin-bottom:24px;}
-  .api-key-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:8px;}
-  .api-key-value{font-family:'DM Mono',monospace;font-size:13px;color:var(--white);word-break:break-all;line-height:1.5;}
-  .copy-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:8px 16px;background:transparent;color:var(--cyan);border:1px solid var(--border);margin-top:12px;transition:all 0.2s;}
-  .copy-btn:hover{background:var(--cyan);color:var(--bg);}
-  .copy-btn.copied{background:var(--green);color:var(--bg);border-color:var(--green);}
-  .pilot-info{display:flex;gap:16px;margin-bottom:24px;}
-  .pi-item{flex:1;background:var(--surface2);padding:16px;text-align:center;}
-  .pi-num{font-family:'Raleway',sans-serif;font-weight:200;font-size:32px;color:var(--cyan);line-height:1;}
-  .pi-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
-  .dash-btn{display:block;width:100%;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:14px;background:var(--cyan);color:var(--bg);text-align:center;text-decoration:none;margin-top:8px;}
+  .success-icon{width:64px;height:64px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:28px;}
+  .success h2{font-family:'Raleway',sans-serif;font-weight:200;font-size:28px;text-align:center;margin-bottom:8px;}
+  .success .sub{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);text-align:center;margin-bottom:32px;letter-spacing:0.08em;line-height:1.7;}
+  .email-highlight{color:var(--cyan);}
+  .steps{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+  .step-item{display:flex;align-items:flex-start;gap:12px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);}
+  .step-num{width:24px;height:24px;background:rgba(6,182,212,0.1);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--cyan);flex-shrink:0;}
+  .dash-btn{display:block;width:100%;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:14px;background:transparent;color:var(--white);border:1px solid var(--border);text-align:center;text-decoration:none;transition:border-color 0.2s;margin-top:8px;}
+  .dash-btn:hover{border-color:var(--cyan);color:var(--cyan);}
   .error-msg{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);padding:12px 16px;font-family:'DM Mono',monospace;font-size:11px;color:var(--red);margin-bottom:16px;display:none;}
   .back-link{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--muted);text-align:center;margin-top:24px;text-decoration:none;display:block;transition:color 0.2s;}
   .back-link:hover{color:var(--cyan);}
@@ -68,25 +63,29 @@
     <div class="form-group"><label>Your Name</label><input type="text" id="name" placeholder="Rajesh Kumar"/></div>
     <div class="form-group"><label>Work Email</label><input type="email" id="email" placeholder="cto@yourcompany.com"/></div>
     <div class="form-group"><label>Company Name</label><input type="text" id="company" placeholder="Your Company Pvt Ltd"/></div>
-    <div class="form-group"><label>Your Role</label><select id="role"><option value="CTO">CTO</option><option value="Developer">Developer</option><option value="Security Engineer">Security Engineer</option><option value="Founder">Founder</option><option value="Other">Other</option></select></div>
+    <div class="form-group"><label>Your Role</label>
+      <select id="role">
+        <option value="CTO">CTO</option>
+        <option value="Developer">Developer</option>
+        <option value="Security Engineer">Security Engineer</option>
+        <option value="Founder">Founder</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
     <button class="btn" id="signupBtn" onclick="doSignup()">Get My API Key</button>
     <div class="terms">No spam. No credit card. Cancel anytime.</div>
   </div>
   <div class="card success" id="successCard">
-    <div class="success-icon">✓</div>
-    <h2>You are in.</h2>
-    <p class="sub">Your 30-day pilot has started. Copy your API key below.</p>
-    <div class="api-key-box">
-      <div class="api-key-label">Your API Key</div>
-      <div class="api-key-value" id="apiKeyDisplay">—</div>
-      <button class="copy-btn" id="copyBtn" onclick="copyKey()">Copy API Key</button>
+    <div class="success-icon">✉️</div>
+    <h2>Check your inbox.</h2>
+    <p class="sub">Your API key has been sent to<br><span class="email-highlight" id="sentEmail">—</span><br>Open your email to get started.</p>
+    <div class="steps">
+      <div class="step-item"><div class="step-num">1</div><span>Open your email and copy your API key</span></div>
+      <div class="step-item"><div class="step-num">2</div><span>Run: npm install qubit-shield-sdk</span></div>
+      <div class="step-item"><div class="step-num">3</div><span>Initialize with your key and start encrypting</span></div>
+      <div class="step-item"><div class="step-num">4</div><span>Check your dashboard to track usage</span></div>
     </div>
-    <div class="pilot-info">
-      <div class="pi-item"><div class="pi-num">30</div><div class="pi-lbl">Days Free</div></div>
-      <div class="pi-item"><div class="pi-num">∞</div><div class="pi-lbl">Encryptions</div></div>
-      <div class="pi-item"><div class="pi-num">₹0</div><div class="pi-lbl">Cost Today</div></div>
-    </div>
-    <a href="#" class="dash-btn" id="dashLink">View My Dashboard</a>
+    <a href="/dashboard" class="dash-btn">Go to Dashboard</a>
   </div>
   <a href="/" class="back-link">← Back to QUBIT Shield</a>
 </div>
@@ -95,7 +94,6 @@ const cur=document.getElementById('cur');
 document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';});
 document.querySelectorAll('a,button,input,select').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('hover'));el.addEventListener('mouseleave',()=>cur.classList.remove('hover'));});
 const API=window.location.origin;
-let currentKey='';
 async function doSignup(){
   const name=document.getElementById('name').value.trim();
   const email=document.getElementById('email').value.trim();
@@ -105,19 +103,16 @@ async function doSignup(){
   const errEl=document.getElementById('errorMsg');
   errEl.style.display='none';
   if(!name||!email||!company){errEl.textContent='Please fill in all fields.';errEl.style.display='block';return;}
-  btn.disabled=true;btn.textContent='Generating quantum key...';
+  btn.disabled=true;btn.textContent='Sending your key...';
   try{
     const res=await fetch(API+'/platform/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,company,role})});
     const data=await res.json();
     if(!data.ok)throw new Error(data.error);
-    currentKey=data.apiKey;
-    document.getElementById('apiKeyDisplay').textContent=data.apiKey;
-    document.getElementById('dashLink').href='/dashboard?key='+data.apiKey;
+    document.getElementById('sentEmail').textContent=email;
     document.getElementById('formCard').style.display='none';
     document.getElementById('successCard').style.display='block';
   }catch(err){errEl.textContent=err.message;errEl.style.display='block';btn.disabled=false;btn.textContent='Get My API Key';}
 }
-function copyKey(){navigator.clipboard.writeText(currentKey).then(()=>{const btn=document.getElementById('copyBtn');btn.textContent='Copied ✓';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy API Key';btn.classList.remove('copied');},2000);});}
 document.addEventListener('keydown',e=>{if(e.key==='Enter')doSignup();});
 </script>
 </body>
