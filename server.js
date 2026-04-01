@@ -10,7 +10,8 @@ const { QubitVault }  = require('./src/vault');
 process.on('uncaughtException', err => { console.error('UNCAUGHT:', err.message); });
 process.on('unhandledRejection', err => { console.error('UNHANDLED:', err.message); });
 const app  = express();
-const PORT = process.env.PORT || 3000;
+const PORT = parseInt(process.env.PORT) || 3000;
+console.log('Starting on PORT:', PORT);
 const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
 
 // PostgreSQL
