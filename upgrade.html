@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUBIT Shield — Choose Your Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#020812;--surface:#060f1e;--surface2:#0a1628;--cyan:#06b6d4;--white:#f0f6ff;--muted:#64748b;--border:rgba(6,182,212,0.15);--green:#10b981;--red:#ef4444;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh;padding:40px 20px;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(6,182,212,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,0.03) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0;}
+  .container{max-width:900px;margin:0 auto;position:relative;z-index:1;}
+  .logo{font-family:'Raleway',sans-serif;font-weight:200;font-size:14px;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:8px;}
+  .logo span{color:var(--cyan);}
+  h1{font-family:'Raleway',sans-serif;font-weight:200;font-size:36px;letter-spacing:0.02em;text-align:center;margin-bottom:8px;}
+  .subtitle{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;color:var(--muted);text-align:center;margin-bottom:16px;}
+  .expired-notice{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);padding:16px 24px;margin-bottom:48px;font-family:'DM Mono',monospace;font-size:12px;color:var(--red);text-align:center;display:none;}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:48px;}
+  .plan{background:var(--surface);padding:40px 32px;position:relative;transition:background 0.2s;}
+  .plan.featured{background:var(--surface2);}
+  .plan.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--cyan);}
+  .plan-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+  .plan-badge.highlight{color:var(--cyan);}
+  .plan-name{font-family:'Raleway',sans-serif;font-weight:200;font-size:22px;margin-bottom:8px;}
+  .plan-price{font-family:'Raleway',sans-serif;font-weight:100;font-size:44px;color:var(--cyan);line-height:1;margin-bottom:4px;}
+  .plan-period{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:24px;}
+  .plan-divider{height:1px;background:var(--border);margin-bottom:20px;}
+  .plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+  .plan-features li{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);display:flex;align-items:flex-start;gap:8px;}
+  .plan-features li::before{content:'✓';color:var(--cyan);flex-shrink:0;}
+  .plan-btn{width:100%;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:14px;border:1px solid var(--cyan);color:var(--cyan);background:transparent;transition:all 0.2s;cursor:pointer;}
+  .plan-btn:hover,.plan-btn.selected{background:var(--cyan);color:var(--bg);}
+  .plan-btn.featured-btn{background:var(--cyan);color:var(--bg);}
+  .plan-btn.featured-btn:hover{opacity:0.85;}
+  .request-form{background:var(--surface);border:1px solid var(--border);padding:40px;position:relative;display:none;}
+  .request-form::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cyan),transparent);}
+  .form-title{font-family:'Raleway',sans-serif;font-weight:200;font-size:24px;margin-bottom:8px;}
+  .form-sub{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:32px;letter-spacing:0.08em;}
+  .form-group{margin-bottom:20px;}
+  label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px;}
+  input,textarea{width:100%;background:var(--surface2);border:1px solid var(--border);padding:14px 16px;font-family:'DM Mono',monospace;font-size:13px;color:var(--white);outline:none;transition:border-color 0.2s;resize:none;}
+  input:focus,textarea:focus{border-color:var(--cyan);}
+  input::placeholder,textarea::placeholder{color:var(--muted);}
+  .submit-btn{width:100%;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:16px;background:var(--cyan);color:var(--bg);border:none;cursor:pointer;transition:opacity 0.2s;}
+  .submit-btn:hover{opacity:0.85;}
+  .submit-btn:disabled{opacity:0.4;pointer-events:none;}
+  .success-msg{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);padding:20px;font-family:'DM Mono',monospace;font-size:12px;color:var(--green);text-align:center;display:none;margin-top:16px;}
+  .back-link{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--muted);text-align:center;margin-top:32px;text-decoration:none;display:block;transition:color 0.2s;}
+  .back-link:hover{color:var(--cyan);}
+  @media(max-width:768px){.plans{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="logo">A LUNAR<span>ECLIPSE</span> Technology</div>
+  <h1>Choose Your Plan</h1>
+  <p class="subtitle">Quantum-resistant security for your enterprise</p>
+
+  <div class="expired-notice" id="expiredNotice">
+    ⚠ Your 30-day free pilot has expired. Choose a plan to continue using QUBIT Shield.
+  </div>
+
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-badge">Starter</div>
+      <div class="plan-name">QUBIT Encrypt</div>
+      <div class="plan-price">₹1.5L</div>
+      <div class="plan-period">per month per organization</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>QUBIT Encrypt SDK</li>
+        <li>Up to 1M encryptions/month</li>
+        <li>ML-KEM-768 NIST FIPS 203</li>
+        <li>REST API access</li>
+        <li>Dashboard + analytics</li>
+        <li>Email support</li>
+      </ul>
+      <button class="plan-btn" onclick="selectPlan('starter','₹1.5L/month')">Select Starter</button>
+    </div>
+    <div class="plan featured">
+      <div class="plan-badge highlight">Most Popular</div>
+      <div class="plan-name">QUBIT Shield</div>
+      <div class="plan-price">₹3.5L</div>
+      <div class="plan-period">per month per organization</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Everything in Starter</li>
+        <li>Unlimited encryptions</li>
+        <li>QUBIT Vault — dynamic credentials</li>
+        <li>ML-DSA-65 digital signatures</li>
+        <li>Priority support</li>
+        <li>Custom integration help</li>
+      </ul>
+      <button class="plan-btn featured-btn" onclick="selectPlan('shield','₹3.5L/month')">Select Shield</button>
+    </div>
+    <div class="plan">
+      <div class="plan-badge">Enterprise</div>
+      <div class="plan-name">Full Stack</div>
+      <div class="plan-price">₹10L</div>
+      <div class="plan-period">per month per organization</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Everything in Shield</li>
+        <li>QUBIT Sentinel — intrusion detection</li>
+        <li>Real-time tamper alerts</li>
+        <li>On-premise deployment</li>
+        <li>Dedicated support + SLA</li>
+        <li>Custom contracts</li>
+      </ul>
+      <button class="plan-btn" onclick="selectPlan('enterprise','₹10L/month')">Select Enterprise</button>
+    </div>
+  </div>
+
+  <div class="request-form" id="requestForm">
+    <div class="form-title" id="formTitle">Upgrade to Shield</div>
+    <div class="form-sub">Fill in your details and we will activate your plan within 24 hours.</div>
+    <div class="form-group">
+      <label>Your API Key</label>
+      <input type="text" id="apiKeyInput" placeholder="qs_live_your_key"/>
+    </div>
+    <div class="form-group">
+      <label>Work Email</label>
+      <input type="email" id="emailInput" placeholder="cto@yourcompany.com"/>
+    </div>
+    <div class="form-group">
+      <label>Company Name</label>
+      <input type="text" id="companyInput" placeholder="Your Company Pvt Ltd"/>
+    </div>
+    <div class="form-group">
+      <label>Message (optional)</label>
+      <textarea id="messageInput" rows="3" placeholder="Any specific requirements or questions..."></textarea>
+    </div>
+    <button class="submit-btn" id="submitBtn" onclick="submitUpgrade()">Request Plan Activation →</button>
+    <div class="success-msg" id="successMsg">
+      ✓ Request sent. We will activate your plan within 24 hours and email you confirmation.
+    </div>
+  </div>
+
+  <a href="/" class="back-link">← Back to QUBIT Shield</a>
+</div>
+
+<script>
+const API = 'https://qubit-shield-sdk-production.up.railway.app';
+let selectedPlan = '';
+let selectedPrice = '';
+
+// Check if expired
+const params = new URLSearchParams(window.location.search);
+if (params.get('expired') === 'true') {
+  document.getElementById('expiredNotice').style.display = 'block';
+}
+
+// Pre-fill API key if provided
+const keyParam = params.get('key');
+if (keyParam) document.getElementById('apiKeyInput').value = keyParam;
+
+function selectPlan(plan, price) {
+  selectedPlan = plan;
+  selectedPrice = price;
+  const names = { starter: 'Starter — QUBIT Encrypt', shield: 'Shield — Encrypt + Vault', enterprise: 'Enterprise — Full Stack' };
+  document.getElementById('formTitle').textContent = 'Upgrade to ' + names[plan];
+  document.getElementById('requestForm').style.display = 'block';
+  document.getElementById('requestForm').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function submitUpgrade() {
+  const apiKey  = document.getElementById('apiKeyInput').value.trim();
+  const email   = document.getElementById('emailInput').value.trim();
+  const company = document.getElementById('companyInput').value.trim();
+  const message = document.getElementById('messageInput').value.trim();
+  const btn     = document.getElementById('submitBtn');
+
+  if (!apiKey || !email || !company) {
+    alert('Please fill in all required fields.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending request...';
+
+  try {
+    const res = await fetch(API + '/platform/upgrade-request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ apiKey, email, company, plan: selectedPlan, price: selectedPrice, message })
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    document.getElementById('successMsg').style.display = 'block';
+    btn.textContent = 'Request Sent ✓';
+  } catch(err) {
+    alert('Error: ' + err.message);
+    btn.disabled = false;
+    btn.textContent = 'Request Plan Activation →';
+  }
+}
+</script>
+</body>
+</html>
