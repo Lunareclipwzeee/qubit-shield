@@ -5,6 +5,14 @@ const path    = require('path');
 const https   = require('https');
 const { Pool } = require('pg');
 const { QubitShield } = require('./src/sdk/index');
+let pqcEngine = null;
+async function getPQC() {
+  if (!pqcEngine) {
+    const { pqcEncrypt, pqcDecrypt, pqcDetect } = await import('./src/pqc-engine.mjs');
+    pqcEngine = { pqcEncrypt, pqcDecrypt, pqcDetect };
+  }
+  return pqcEngine;
+}
 const { QubitVault }    = require('./src/vault');
 const { QubitSentinel } = require('./src/sentinel');
 
@@ -148,9 +156,12 @@ app.post('/v1/encrypt',authenticate,async(req,res)=>{
   try{
     const{payload}=req.body;
     if(!payload) return res.status(400).json({ok:false,error:'payload is required'});
-    const result=await req.qs.encrypt(typeof payload==='string'?payload:JSON.stringify(payload));
-    await logUsage(req.company.api_key,'encrypt',Date.now()-start);
-    res.json({ok:true,sessionId:result.sessionId,envelope:result.envelope,algorithm:result.envelope.algorithm,encoding:result.envelope.encoding,timeMs:result.envelope.timeMs});
+    const data=typeof payload==='string'?payload:JSON.stringify(payload);
+    const {pqcEncrypt}=await getPQC();
+    const result=await pqcEncrypt(data);
+    const timeMs=Date.now()-start;
+    await logUsage(req.company.api_key,'encrypt',timeMs);
+    res.json({ok:true,sessionId:'qs_'+require('crypto').randomBytes(16).toString('hex'),envelope:result.envelope,algorithm:result.algorithm,standard:result.standard,keySize:result.keySize,cipherSize:result.cipherSize,timeMs});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 
@@ -159,9 +170,11 @@ app.post('/v1/decrypt',authenticate,async(req,res)=>{
   try{
     const{envelope}=req.body;
     if(!envelope) return res.status(400).json({ok:false,error:'envelope is required'});
-    const result=await req.qs.decrypt(envelope);
-    await logUsage(req.company.api_key,'decrypt',Date.now()-start);
-    res.json({ok:true,text:result.text,sessionId:result.sessionId,errorsFound:result.errorsFound});
+    const{pqcDecrypt}=await getPQC();
+    const text=await pqcDecrypt(envelope);
+    const timeMs=Date.now()-start;
+    await logUsage(req.company.api_key,'decrypt',timeMs);
+    res.json({ok:true,text,algorithm:'ML-KEM-768+AES-256-GCM',standard:'NIST FIPS 203',timeMs});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 
@@ -170,9 +183,11 @@ app.post('/v1/detect',authenticate,async(req,res)=>{
   try{
     const{envelope}=req.body;
     if(!envelope) return res.status(400).json({ok:false,error:'envelope is required'});
-    const result=await req.qs.detect(envelope);
-    await logUsage(req.company.api_key,'detect',Date.now()-start);
-    res.json({ok:true,tampered:result.tampered,score:result.score,reason:result.reason});
+    const{pqcDetect}=await getPQC();
+    const result=await pqcDetect(envelope);
+    const timeMs=Date.now()-start;
+    await logUsage(req.company.api_key,'detect',timeMs);
+    res.json({ok:true,tampered:result.tampered,score:result.score,reason:result.reason,algorithm:'ML-KEM-768',standard:'NIST FIPS 203',timeMs});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 
