@@ -257,8 +257,8 @@ const { tampered, score } = await qs.detect(envelope);</pre>
   <div class="slabel">Why It Cannot Be Hacked</div>
   <h2 class="stitle">Four layers.<br>All must fail at once.</h2>
   <div class="lgrid">
-    <div class="lcard"><div class="lnum">01</div><div class="ltag">Quantum Physics</div><div class="ltitle">The Observer Effect</div><div class="ldesc">You cannot observe a quantum system without disturbing it. Any attempt to read or copy protected data collapses its qubit state — leaving an immediate, irrefutable fingerprint.</div></div>
-    <div class="lcard"><div class="lnum">02</div><div class="ltag">Self-Healing</div><div class="ltitle">Quantum Error Correction</div><div class="ldesc">Every data object is redundantly encoded across multiple qubit states. Corrupting one requires corrupting a majority simultaneously without triggering the observer effect.</div></div>
+    <div class="lcard"><div class="lnum">01</div><div class="ltag">NIST FIPS 203</div><div class="ltitle">Post-Quantum Encryption</div><div class="ldesc">CRYSTALS-Kyber key encapsulation is resistant to both classical and quantum attack. Breaking it requires solving Module Learning With Errors — no known quantum algorithm solves this efficiently.</div></div>
+    <div class="lcard"><div class="lnum">02</div><div class="ltag">Tamper Detection</div><div class="ltitle">Syndrome-Based Integrity</div><div class="ldesc">Every protected data object has a cryptographic syndrome baseline. Any modification — even a single bit — produces a detectable mismatch. Tampering is caught before it causes damage.</div></div>
     <div class="lcard"><div class="lnum">03</div><div class="ltag">Zero Attack Surface</div><div class="ltitle">No Static Keys</div><div class="ldesc">QUBIT Shield eliminates static credentials entirely. Every access generates a fresh quantum-state key that expires on use. There is nothing to steal.</div></div>
     <div class="lcard"><div class="lnum">04</div><div class="ltag">NIST 2024</div><div class="ltitle">Post-Quantum Foundation</div><div class="ldesc">CRYSTALS-Kyber and CRYSTALS-Dilithium — NIST's 2024 finalized standards — are resistant to both classical and quantum attack.</div></div>
   </div>
@@ -275,7 +275,7 @@ const { tampered, score } = await qs.detect(envelope);</pre>
     <div class="demo-body">
       <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Step 01 — Enter your message</div>
       <div class="demo-input-wrap">
-        <textarea class="demo-textarea" id="demoInput" rows="3" placeholder="Type any message...">QUBIT Shield protects this message using quantum-inspired encryption by LUNARECLIPSE.</textarea>
+        <textarea class="demo-textarea" id="demoInput" rows="3" placeholder="Type any message...">QUBIT Shield protects this message using post-quantum encryption by LUNARECLIPSE.</textarea>
         <button class="demo-btn" id="demoEncBtn" onclick="demoEncrypt()">Encrypt</button>
       </div>
       <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Step 02 — Quantum ciphertext</div>
@@ -294,11 +294,11 @@ const { tampered, score } = await qs.detect(envelope);</pre>
       <div class="demo-output plain empty" id="demoPlain">Decrypted text will appear here...</div>
       <div id="demoDetectResult" style="display:none;" class="detect-result">
         <div class="detect-score-big" id="demoDetScore">0%</div>
-        <div><div class="dt-lbl" id="demoDetLabel">INTEGRITY VERIFIED</div><div class="dt-reason" id="demoDetReason">Quantum state undisturbed.</div></div>
+        <div><div class="dt-lbl" id="demoDetLabel">INTEGRITY VERIFIED</div><div class="dt-reason" id="demoDetReason">Syndrome verified — data is intact.</div></div>
       </div>
       <div class="demo-status">
         <div class="sdot m" id="demoStatusDot"></div>
-        <span id="demoStatusText">Ready — enter your message and click Encrypt</span>
+        <span id="demoStatusText">Ready — ML-KEM-768 active · enter your message and click Encrypt</span>
       </div>
     </div>
   </div>
@@ -310,9 +310,9 @@ const { tampered, score } = await qs.detect(envelope);</pre>
     <thead><tr><th>Capability</th><th>Classical Security</th><th>Bitcoin / Web3</th><th>QRL</th><th class="hl">QUBIT Shield</th></tr></thead>
     <tbody>
       <tr><td>Quantum Resistant Encryption</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td><td class="hl yes">✓✓</td></tr>
-      <tr><td>Software Qubit Computation</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="hl yes">✓</td></tr>
-      <tr><td>Observer Effect Detection</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="hl yes">✓</td></tr>
-      <tr><td>Quantum Error Correction</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="hl yes">✓</td></tr>
+      <tr><td>MLWE Lattice Computation</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="hl yes">✓</td></tr>
+      <tr><td>Syndrome Tamper Detection</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="hl yes">✓</td></tr>
+      <tr><td>Ephemeral Key Per Session</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="hl yes">✓</td></tr>
       <tr><td>Zero Static Credentials</td><td class="no">✗</td><td class="par">Partial</td><td class="no">✗</td><td class="hl yes">✓</td></tr>
       <tr><td>Enterprise Ready Today</td><td class="yes">✓</td><td class="no">✗</td><td class="par">Partial</td><td class="hl yes">✓</td></tr>
       <tr><td>Upgrades to Real Quantum Hardware</td><td class="no">✗</td><td class="no">✗</td><td class="par">Partial</td><td class="hl yes">✓</td></tr>
@@ -356,7 +356,7 @@ function revealChars(el,text,color){el.style.color=color;el.classList.remove('em
 async function demoEncrypt(){const text=document.getElementById('demoInput').value.trim();if(!text)return;env=null;document.getElementById('demoEncBtn').disabled=true;document.getElementById('demoDecBtn').disabled=true;document.getElementById('demoDetBtn').disabled=true;document.getElementById('demoCipher').textContent='';document.getElementById('demoCipher').classList.add('empty');document.getElementById('demoPlain').textContent='Decrypted text will appear here...';document.getElementById('demoPlain').classList.add('empty');document.getElementById('demoMeta').style.display='none';document.getElementById('demoDetectResult').style.display='none';setDemoStatus('c','Generating quantum key via BB84 protocol...');try{const res=await fetch(API+'/v1/encrypt',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+AKEY},body:JSON.stringify({payload:text})});const data=await res.json();if(!data.ok)throw new Error(data.error);env=data.envelope;revealChars(document.getElementById('demoCipher'),data.envelope.ciphertext.substring(0,300)+'...','#06b6d4');document.getElementById('demoMeta').style.display='grid';document.getElementById('demoSessionId').textContent=data.sessionId.substring(0,24)+'...';document.getElementById('demoTime').textContent=data.timeMs+'ms';document.getElementById('demoBlocks').textContent=(data.cipherSize||1088)+' bytes';setDemoStatus('g','Encrypted — quantum key consumed and destroyed · '+data.timeMs+'ms');document.getElementById('demoDecBtn').disabled=false;document.getElementById('demoDetBtn').disabled=false;}catch(e){setDemoStatus('r','Error: '+e.message);}document.getElementById('demoEncBtn').disabled=false;}
 async function demoDecrypt(){if(!env)return;document.getElementById('demoDecBtn').disabled=true;setDemoStatus('c','Decrypting with Steane-7 quantum error correction...');try{const res=await fetch(API+'/v1/decrypt',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+AKEY},body:JSON.stringify({envelope:env})});const data=await res.json();if(!data.ok)throw new Error(data.error);revealChars(document.getElementById('demoPlain'),data.text,'#10b981');setDemoStatus('g','Decryption successful — '+(data.errorsFound>0?data.errorsFound+' QEC errors auto-corrected':'zero errors'));}catch(e){setDemoStatus('r','Error: '+e.message);}document.getElementById('demoDecBtn').disabled=false;}
 async function demoDetect(){if(!env)return;document.getElementById('demoDetBtn').disabled=true;setDemoStatus('c','Running observer effect syndrome analysis...');try{const res=await fetch(API+'/v1/detect',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+AKEY},body:JSON.stringify({envelope:env})});const data=await res.json();if(!data.ok)throw new Error(data.error);const dr=document.getElementById('demoDetectResult');dr.style.display='flex';const sc=document.getElementById('demoDetScore');const lb=document.getElementById('demoDetLabel');const rs=document.getElementById('demoDetReason');if(!data.tampered){sc.textContent='0%';sc.className='detect-score-big safe';lb.textContent='INTEGRITY VERIFIED';lb.className='dt-lbl safe';rs.textContent=data.reason+' — Syndrome baseline matches.';}else{sc.textContent=Math.round(data.score*100)+'%';sc.className='detect-score-big bad';lb.textContent='TAMPER DETECTED';lb.className='dt-lbl bad';rs.textContent=data.reason+' — Syndrome mismatch detected.';}setDemoStatus('g','Integrity check complete');}catch(e){setDemoStatus('r','Error: '+e.message);}document.getElementById('demoDetBtn').disabled=false;}
-function demoClear(){env=null;document.getElementById('demoInput').value='';document.getElementById('demoCipher').textContent='Ciphertext will appear here...';document.getElementById('demoCipher').classList.add('empty');document.getElementById('demoPlain').textContent='Decrypted text will appear here...';document.getElementById('demoPlain').classList.add('empty');document.getElementById('demoMeta').style.display='none';document.getElementById('demoDetectResult').style.display='none';document.getElementById('demoDecBtn').disabled=true;document.getElementById('demoDetBtn').disabled=true;setDemoStatus('m','Ready — enter your message and click Encrypt');}
+function demoClear(){env=null;document.getElementById('demoInput').value='';document.getElementById('demoCipher').textContent='Ciphertext will appear here...';document.getElementById('demoCipher').classList.add('empty');document.getElementById('demoPlain').textContent='Decrypted text will appear here...';document.getElementById('demoPlain').classList.add('empty');document.getElementById('demoMeta').style.display='none';document.getElementById('demoDetectResult').style.display='none';document.getElementById('demoDecBtn').disabled=true;document.getElementById('demoDetBtn').disabled=true;setDemoStatus('m','Ready — ML-KEM-768 active · enter your message and click Encrypt');}
 </script>
 </body>
 </html>
