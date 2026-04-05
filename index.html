@@ -219,7 +219,7 @@
   <div class="steps-grid">
     <div class="step-card"><div class="step-num">01</div><div class="step-tag">Setup</div><div class="step-title">Get Your API Key</div><div class="step-desc">Sign up and receive your API key instantly. No credit card required for pilot. Works with any stack.</div></div>
     <div class="step-card"><div class="step-num">02</div><div class="step-tag">Integrate</div><div class="step-title">5 Lines of Code</div><div class="step-desc">Install via npm or pip. Initialize with your key. Call encrypt() on any data. That is all.</div></div>
-    <div class="step-card"><div class="step-num">03</div><div class="step-tag">Quantum Engine</div><div class="step-title">Ephemeral Key Generated</div><div class="step-desc">Every encryption generates a fresh 256-bit ephemeral key using NIST-certified ML-KEM-768. Key is mathematically derived and destroyed immediately after use.</div></div>
+    <div class="step-card"><div class="step-num">03</div><div class="step-tag">PQC Engine</div><div class="step-title">Ephemeral Key Generated</div><div class="step-desc">Every encryption generates a fresh 256-bit ephemeral key using NIST-certified ML-KEM-768. Key is mathematically derived and destroyed immediately after use.</div></div>
     <div class="step-card"><div class="step-num">04</div><div class="step-tag">Protected</div><div class="step-title">Data Is Quantum Safe</div><div class="step-desc">CRYSTALS-Kyber encrypts your data. AES-256-GCM seals it. Syndrome-based analysis detects any tampering automatically.</div></div>
   </div>
 </section>
@@ -265,7 +265,7 @@ const { tampered, score } = await qs.detect(envelope);</pre>
 </section>
 <section id="demo" class="sw reveal">
   <div class="slabel">Interactive Demo</div>
-  <h2 class="stitle">Real quantum encryption.<br>Right now.</h2>
+  <h2 class="stitle">Real post-quantum encryption.<br>Right now.</h2>
   <p class="sbody">Every encryption call hits our live API. Every key is generated using ML-KEM-768 and destroyed after use. Your data is never stored on our servers.</p>
   <div class="demo-wrap">
     <div class="demo-header">
@@ -278,7 +278,7 @@ const { tampered, score } = await qs.detect(envelope);</pre>
         <textarea class="demo-textarea" id="demoInput" rows="3" placeholder="Type any message...">QUBIT Shield protects this message using post-quantum encryption by LUNARECLIPSE.</textarea>
         <button class="demo-btn" id="demoEncBtn" onclick="demoEncrypt()">Encrypt</button>
       </div>
-      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Step 02 — Quantum ciphertext</div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Step 02 — Post-quantum ciphertext</div>
       <div class="demo-output cipher empty" id="demoCipher">Ciphertext will appear here...</div>
       <div class="demo-meta" id="demoMeta" style="display:none;">
         <div class="meta-item"><div class="meta-label">Session ID</div><div class="meta-value" id="demoSessionId">—</div></div>
@@ -305,7 +305,7 @@ const { tampered, score } = await qs.detect(envelope);</pre>
 </section>
 <section id="compare" class="sw reveal">
   <div class="slabel">Competitive Landscape</div>
-  <h2 class="stitle">Nothing else does this.</h2>
+  <h2 class="stitle">Why QUBIT Shield.</h2>
   <table class="ctable">
     <thead><tr><th>Capability</th><th>Classical Security</th><th>Bitcoin / Web3</th><th>QRL</th><th class="hl">QUBIT Shield</th></tr></thead>
     <tbody>
