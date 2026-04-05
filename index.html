@@ -219,7 +219,7 @@
   <div class="steps-grid">
     <div class="step-card"><div class="step-num">01</div><div class="step-tag">Setup</div><div class="step-title">Get Your API Key</div><div class="step-desc">Sign up and receive your API key instantly. No credit card required for pilot. Works with any stack.</div></div>
     <div class="step-card"><div class="step-num">02</div><div class="step-tag">Integrate</div><div class="step-title">5 Lines of Code</div><div class="step-desc">Install via npm or pip. Initialize with your key. Call encrypt() on any data. That is all.</div></div>
-    <div class="step-card"><div class="step-num">03</div><div class="step-tag">Quantum Engine</div><div class="step-title">Qubit Key Generated</div><div class="step-desc">Every encryption generates a fresh 256-bit ephemeral key using NIST-certified CRYSTALS-Kyber. Key destroyed immediately after use.</div></div>
+    <div class="step-card"><div class="step-num">03</div><div class="step-tag">Quantum Engine</div><div class="step-title">Ephemeral Key Generated</div><div class="step-desc">Every encryption generates a fresh 256-bit ephemeral key using NIST-certified ML-KEM-768. Key is mathematically derived and destroyed immediately after use.</div></div>
     <div class="step-card"><div class="step-num">04</div><div class="step-tag">Protected</div><div class="step-title">Data Is Quantum Safe</div><div class="step-desc">CRYSTALS-Kyber encrypts your data. AES-256-GCM seals it. Syndrome-based analysis detects any tampering automatically.</div></div>
   </div>
 </section>
@@ -249,8 +249,8 @@ const { tampered, score } = await qs.detect(envelope);</pre>
   <h2 class="stitle">Three layers.<br>Complete protection.</h2>
   <div class="pgrid3">
     <div class="pcard"><div class="pnum">01 / 03</div><div class="picon"><svg viewBox="0 0 48 48" fill="none"><rect x="8" y="20" width="32" height="22" rx="2" stroke="#06b6d4" stroke-width="1.5"/><path d="M16 20V14a8 8 0 0116 0v6" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/><circle cx="24" cy="31" r="3" fill="#06b6d4"/><line x1="24" y1="34" x2="24" y2="38" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="pname">QUBIT <span>Encrypt</span></div><div class="pdesc">Replaces classical encryption with NIST-certified post-quantum cryptography. Drop-in SDK — no infrastructure change. Works on existing hardware today.</div><ul class="pfeat"><li>CRYSTALS-Kyber (NIST FIPS 203)</li><li>CRYSTALS-Dilithium signatures (NIST FIPS 204)</li><li>Hybrid classical + post-quantum mode</li><li>Zero knowledge proof verification</li><li>Forward secrecy per session</li></ul></div>
-    <div class="pcard"><div class="pnum">02 / 03</div><div class="picon"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="10" width="36" height="28" rx="2" stroke="#06b6d4" stroke-width="1.5"/><circle cx="24" cy="24" r="8" stroke="#06b6d4" stroke-width="1.5"/><circle cx="24" cy="24" r="3" fill="#06b6d4"/><line x1="32" y1="24" x2="36" y2="24" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="pname">QUBIT <span>Vault</span></div><div class="pdesc">Eliminates static passwords and fixed private keys. Every access generates a fresh quantum-state credential.</div><ul class="pfeat"><li>CRYSTALS-Dilithium dynamic credentials</li><li>Dynamic identity — no static credentials</li><li>Cryptographic access control</li><li>Automatic tamper detection and recovery</li><li>Biometric + device cryptographic binding</li></ul></div>
-    <div class="pcard"><div class="pnum">03 / 03</div><div class="picon"><svg viewBox="0 0 48 48" fill="none"><path d="M24 6L40 14v12c0 10-7 18-16 20C15 44 8 36 8 26V14L24 6z" stroke="#06b6d4" stroke-width="1.5"/><path d="M18 24l4 4 8-8" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="pname">QUBIT <span>Sentinel</span></div><div class="pdesc">A cryptographic tripwire around your organization. Detects unauthorized access and data modification the moment it begins.</div><ul class="pfeat"><li>Syndrome-based intrusion detection</li><li>Real-time anomaly monitoring</li><li>Cryptographic tamper-proof audit trails</li><li>Automated isolation and recovery</li><li>Real-time quantum state alerting</li></ul></div>
+    <div class="pcard"><div class="pnum">02 / 03</div><div class="picon"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="10" width="36" height="28" rx="2" stroke="#06b6d4" stroke-width="1.5"/><circle cx="24" cy="24" r="8" stroke="#06b6d4" stroke-width="1.5"/><circle cx="24" cy="24" r="3" fill="#06b6d4"/><line x1="32" y1="24" x2="36" y2="24" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="pname">QUBIT <span>Vault</span></div><div class="pdesc">Eliminates static passwords and fixed private keys. Every access generates a fresh post-quantum credential.</div><ul class="pfeat"><li>CRYSTALS-Dilithium dynamic credentials</li><li>Dynamic identity — no static credentials</li><li>Cryptographic access control</li><li>Automatic tamper detection and recovery</li><li>Biometric + device cryptographic binding</li></ul></div>
+    <div class="pcard"><div class="pnum">03 / 03</div><div class="picon"><svg viewBox="0 0 48 48" fill="none"><path d="M24 6L40 14v12c0 10-7 18-16 20C15 44 8 36 8 26V14L24 6z" stroke="#06b6d4" stroke-width="1.5"/><path d="M18 24l4 4 8-8" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="pname">QUBIT <span>Sentinel</span></div><div class="pdesc">A cryptographic tripwire around your organization. Detects unauthorized access and data modification the moment it begins.</div><ul class="pfeat"><li>Syndrome-based intrusion detection</li><li>Real-time anomaly monitoring</li><li>Cryptographic tamper-proof audit trails</li><li>Automated isolation and recovery</li><li>Real-time cryptographic alerting</li></ul></div>
   </div>
 </section>
 <section id="security" class="sw reveal">
@@ -259,14 +259,14 @@ const { tampered, score } = await qs.detect(envelope);</pre>
   <div class="lgrid">
     <div class="lcard"><div class="lnum">01</div><div class="ltag">NIST FIPS 203</div><div class="ltitle">Post-Quantum Encryption</div><div class="ldesc">CRYSTALS-Kyber key encapsulation is resistant to both classical and quantum attack. Breaking it requires solving Module Learning With Errors — no known quantum algorithm solves this efficiently.</div></div>
     <div class="lcard"><div class="lnum">02</div><div class="ltag">Tamper Detection</div><div class="ltitle">Syndrome-Based Integrity</div><div class="ldesc">Every protected data object has a cryptographic syndrome baseline. Any modification — even a single bit — produces a detectable mismatch. Tampering is caught before it causes damage.</div></div>
-    <div class="lcard"><div class="lnum">03</div><div class="ltag">Zero Attack Surface</div><div class="ltitle">No Static Keys</div><div class="ldesc">QUBIT Shield eliminates static credentials entirely. Every access generates a fresh quantum-state key that expires on use. There is nothing to steal.</div></div>
+    <div class="lcard"><div class="lnum">03</div><div class="ltag">Zero Attack Surface</div><div class="ltitle">No Static Keys</div><div class="ldesc">QUBIT Shield eliminates static credentials entirely. Every access generates a fresh ephemeral post-quantum key that expires on use. There is nothing to steal.</div></div>
     <div class="lcard"><div class="lnum">04</div><div class="ltag">NIST 2024</div><div class="ltitle">Post-Quantum Foundation</div><div class="ldesc">CRYSTALS-Kyber and CRYSTALS-Dilithium — NIST's 2024 finalized standards — are resistant to both classical and quantum attack.</div></div>
   </div>
 </section>
 <section id="demo" class="sw reveal">
   <div class="slabel">Interactive Demo</div>
   <h2 class="stitle">Real quantum encryption.<br>Right now.</h2>
-  <p class="sbody">Every encryption call hits our live API. Every key is quantum-generated and destroyed after use. Nothing is stored.</p>
+  <p class="sbody">Every encryption call hits our live API. Every key is generated using ML-KEM-768 and destroyed after use. Your data is never stored on our servers.</p>
   <div class="demo-wrap">
     <div class="demo-header">
       <div class="demo-title">QUBIT Shield — Live Encryption Terminal</div>
@@ -329,7 +329,7 @@ const { tampered, score } = await qs.detect(envelope);</pre>
   </div>
 </section>
 <div id="access" class="ctawrap reveal">
-  <h2 class="ctatitle">Quantum computers are coming.<br>Be ready today.</h2>
+  <h2 class="ctatitle">Post-quantum migration starts today.</h2>
   <p class="ctasub">India's first post-quantum cryptography SDK. NIST certified. Enterprise ready. Free 30-day pilot.</p>
   <div class="ctabtns">
     <a href="https://qubit-shield-sdk-production.up.railway.app/signup" class="btn-p">Request Early Access</a>
