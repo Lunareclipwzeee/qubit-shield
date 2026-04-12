@@ -134,7 +134,6 @@ async function sendEmail(to,name,company,apiKey) {
     const options={hostname:'api.resend.com',path:'/emails',method:'POST',headers:{'Authorization':`Bearer ${RESEND_API_KEY}`,'Content-Type':'application/json','Content-Length':Buffer.byteLength(payload)}};
     const req2=https.request(options,r=>{let d='';r.on('data',x=>d+=x);r.on('end',()=>{if(r.statusCode===200||r.statusCode===201)resolve(JSON.parse(d));else reject(new Error('Email failed: '+d));});});
     req2.on('error',reject);req2.write(payload);req2.end();
-    console.log('Resend payload to:', to, 'key starts:', RESEND_API_KEY.substring(0,8));
   });
 }
 
