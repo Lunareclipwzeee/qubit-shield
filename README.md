@@ -30,4 +30,4 @@ npm install qubit-shield-sdk
 Apache 2.0
 
 ## Contact
-LUNARECLIPSE murthybondu7@gmail.com
+LUNARECLIPSE pilotsqubitshield@gmail.com
