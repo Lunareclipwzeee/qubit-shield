@@ -349,7 +349,7 @@ app.post('/platform/upgrade-request',async(req,res)=>{
       <code style="color:#06b6d4;">curl -X POST ${process.env.RAILWAY_PUBLIC_DOMAIN||'https://qubit-shield-sdk-production.up.railway.app'}/admin/setplan?secret=lunareclipse_admin_2026&apiKey=${apiKey}&plan=${plan}</code></p>
     </div>`;
 
-    const payload=JSON.stringify({from:'QUBIT Shield <onboarding@resend.dev>',to:['pilotsqubitshield@gmail.com'],subject:`QUBIT Shield — Plan Upgrade Request: ${plan} from ${company}`,html});
+    const payload=JSON.stringify({from:'QUBIT Shield <onboarding@resend.dev>',to:['pilotsqubitshield@gmail.com'],reply_to:'pilotsqubitshield@gmail.com',subject:`QUBIT Shield — Plan Upgrade Request: ${plan} from ${company}`,html});
     await new Promise((resolve,reject)=>{
       const https=require('https');
       const options={hostname:'api.resend.com',path:'/emails',method:'POST',headers:{'Authorization':`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json','Content-Length':Buffer.byteLength(payload)}};
