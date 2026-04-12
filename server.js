@@ -16,6 +16,50 @@ async function getPQC() {
 const { QubitVault }    = require('./src/vault');
 const { QubitSentinel } = require('./src/sentinel');
 
+
+// ── Rate Limiting ──────────────────────────────────────────
+const rateLimitStore = new Map();
+
+function rateLimit(maxRequests, windowMs) {
+  return (req, res, next) => {
+    const key = req.headers['authorization']?.replace('Bearer ','').trim() || req.ip;
+    const now = Date.now();
+    const windowStart = now - windowMs;
+
+      rateLimitStore.set(key, []);
+    }
+
+    // Clean old requests outside window
+    const requests = rateLimitStore.get(key).filter(t => t > windowStart);
+    requests.push(now);
+    rateLimitStore.set(key, requests);
+
+    // Set headers
+    res.setHeader('X-RateLimit-Limit', maxRequests);
+    res.setHeader('X-RateLimit-Remaining', Math.max(0, maxRequests - requests.length));
+    res.setHeader('X-RateLimit-Reset', new Date(now + windowMs).toISOString());
+
+    if (requests.length > maxRequests) {
+      return res.status(429).json({
+        ok: false,
+        error: 'Rate limit exceeded. Max ' + maxRequests + ' requests per ' + (windowMs/60000) + ' minutes.',
+        retryAfter: Math.ceil(windowMs / 1000)
+      });
+    }
+    next();
+  };
+}
+
+// Clean store every 5 minutes to prevent memory leak
+setInterval(() => {
+  const cutoff = Date.now() - 60 * 60 * 1000;
+  for (const [key, times] of rateLimitStore.entries()) {
+    const fresh = times.filter(t => t > cutoff);
+    if (fresh.length === 0) rateLimitStore.delete(key);
+    else rateLimitStore.set(key, fresh);
+  }
+}, 5 * 60 * 1000);
+// ───────────────────────────────────────────────────────────
 process.on('uncaughtException', err => { console.error('UNCAUGHT:', err.message); });
 process.on('unhandledRejection', err => { console.error('UNHANDLED:', err.message); });
 const app  = express();
@@ -160,7 +204,7 @@ app.get('/v1/health',async(req,res)=>{
   res.json({ok:true,status:'operational',version:'1.0.0',engine:'QubitShield-v1',algorithms:['CRYSTALS-Kyber-768','AES-256-GCM','CRYSTALS-Dilithium-3'],timestamp:new Date().toISOString(),uptime:Math.floor(process.uptime()),totalCompanies:parseInt(r.rows[0].count)});
 });
 
-app.post('/v1/encrypt',authenticate,async(req,res)=>{
+app.post('/v1/encrypt', rateLimit(60, 60*1000),authenticate,async(req,res)=>{
   const start=Date.now();
   try{
     const{payload}=req.body;
@@ -174,7 +218,7 @@ app.post('/v1/encrypt',authenticate,async(req,res)=>{
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 
-app.post('/v1/decrypt',authenticate,async(req,res)=>{
+app.post('/v1/decrypt', rateLimit(60, 60*1000),authenticate,async(req,res)=>{
   const start=Date.now();
   try{
     const{envelope}=req.body;
@@ -187,7 +231,7 @@ app.post('/v1/decrypt',authenticate,async(req,res)=>{
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 
-app.post('/v1/detect',authenticate,async(req,res)=>{
+app.post('/v1/detect', rateLimit(60, 60*1000),authenticate,async(req,res)=>{
   const start=Date.now();
   try{
     const{envelope}=req.body;
@@ -200,7 +244,7 @@ app.post('/v1/detect',authenticate,async(req,res)=>{
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 
-app.post('/v1/sign',authenticate,async(req,res)=>{
+app.post('/v1/sign', rateLimit(60, 60*1000),authenticate,async(req,res)=>{
   try{
     const{data}=req.body;
     if(!data) return res.status(400).json({ok:false,error:'data is required'});
@@ -209,7 +253,7 @@ app.post('/v1/sign',authenticate,async(req,res)=>{
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 
-app.post('/v1/verify',authenticate,async(req,res)=>{
+app.post('/v1/verify', rateLimit(60, 60*1000),authenticate,async(req,res)=>{
   try{
     const{data,signature}=req.body;
     if(!data||!signature) return res.status(400).json({ok:false,error:'data and signature required'});
