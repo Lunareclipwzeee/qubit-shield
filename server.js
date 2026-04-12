@@ -22,43 +22,34 @@ const rateLimitStore = new Map();
 
 function rateLimit(maxRequests, windowMs) {
   return (req, res, next) => {
-    const key = req.headers['authorization']?.replace('Bearer ','').trim() || req.ip;
+    const key = (req.headers['authorization'] || '').replace('Bearer ','').trim() || req.ip;
     const now = Date.now();
     const windowStart = now - windowMs;
-
-      rateLimitStore.set(key, []);
-    }
-
-    // Clean old requests outside window
+    if (!rateLimitStore.has(key)) rateLimitStore.set(key, []);
     const requests = rateLimitStore.get(key).filter(t => t > windowStart);
     requests.push(now);
     rateLimitStore.set(key, requests);
-
-    // Set headers
     res.setHeader('X-RateLimit-Limit', maxRequests);
     res.setHeader('X-RateLimit-Remaining', Math.max(0, maxRequests - requests.length));
     res.setHeader('X-RateLimit-Reset', new Date(now + windowMs).toISOString());
-
     if (requests.length > maxRequests) {
       return res.status(429).json({
         ok: false,
         error: 'Rate limit exceeded. Max ' + maxRequests + ' requests per ' + (windowMs/60000) + ' minutes.',
-        retryAfter: Math.ceil(windowMs / 1000)
+        retryAfter: Math.ceil(windowMs/1000)
       });
     }
     next();
   };
 }
-
-// Clean store every 5 minutes to prevent memory leak
 setInterval(() => {
-  const cutoff = Date.now() - 60 * 60 * 1000;
+  const cutoff = Date.now() - 60*60*1000;
   for (const [key, times] of rateLimitStore.entries()) {
     const fresh = times.filter(t => t > cutoff);
     if (fresh.length === 0) rateLimitStore.delete(key);
     else rateLimitStore.set(key, fresh);
   }
-}, 5 * 60 * 1000);
+}, 5*60*1000);
 // ───────────────────────────────────────────────────────────
 process.on('uncaughtException', err => { console.error('UNCAUGHT:', err.message); });
 process.on('unhandledRejection', err => { console.error('UNHANDLED:', err.message); });
