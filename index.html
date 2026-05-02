@@ -184,9 +184,9 @@
     <li><a href="#products">Products</a></li>
     <li><a href="#demo">Live Demo</a></li>
     <li><a href="/upgrade">Pricing</a></li>
-    <li><a href="https://eigenlock-sdk-production.up.railway.app/dashboard">Dashboard</a></li>
+    <li><a href="https://qubit-shield-sdk-production.up.railway.app/dashboard">Dashboard</a></li>
   </ul>
-  <a href="https://eigenlock-sdk-production.up.railway.app/signup" class="nav-cta">Get API Key</a>
+  <a href="https://qubit-shield-sdk-production.up.railway.app/signup" class="nav-cta">Get API Key</a>
 </nav>
 <div class="hero">
   <div class="rings"><div class="ring ring-1"></div><div class="ring ring-2"></div><div class="ring ring-3"></div></div>
@@ -231,8 +231,8 @@
 npm install eigenlock-sdk
 
 <span style="color:var(--muted);">// Initialize</span>
-const { QubitShield } = require('eigenlock-sdk');
-const qs = new QubitShield({ apiKey: 'qs_live_your_key' });
+const { EigenLock } = require('eigenlock-sdk');
+const qs = new EigenLock({ apiKey: 'qs_live_your_key' });
 
 <span style="color:var(--muted);">// Encrypt</span>
 const { envelope } = await qs.encrypt('sensitive data');
@@ -270,7 +270,7 @@ const { tampered, score } = await qs.detect(envelope);</pre>
   <div class="demo-wrap">
     <div class="demo-header">
       <div class="demo-title">EIGENLOCK — Live Encryption Terminal</div>
-      <div class="demo-live">API Live · eigenlock-sdk-production.up.railway.app</div>
+      <div class="demo-live">API Live · qubit-shield-sdk-production.up.railway.app</div>
     </div>
     <div class="demo-body">
       <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Step 01 — Enter your message</div>
@@ -332,7 +332,7 @@ const { tampered, score } = await qs.detect(envelope);</pre>
   <h2 class="ctatitle">Post-quantum migration starts today.</h2>
   <p class="ctasub">India's first post-quantum cryptography SDK. NIST certified. Enterprise ready. Free 30-day pilot.</p>
   <div class="ctabtns">
-    <a href="https://eigenlock-sdk-production.up.railway.app/signup" class="btn-p">Request Early Access</a>
+    <a href="https://qubit-shield-sdk-production.up.railway.app/signup" class="btn-p">Request Early Access</a>
     <a href="mailto:pilotsqubitshield@gmail.com?subject=EIGENLOCK Whitepaper" class="btn-s">Get the Whitepaper</a>
   </div>
 </div>
@@ -348,7 +348,7 @@ document.querySelectorAll('a,button,textarea').forEach(el=>{el.addEventListener(
 function runDotType(el,delay){if(el.dataset.typed)return;el.dataset.typed='1';const text=el.dataset.text||'';el.innerHTML='';const spans=[];for(let i=0;i<text.length;i++){const s=document.createElement('span');s.className='dt-char is-dot';s.textContent=text[i]===' '?'\u00a0':text[i];el.appendChild(s);spans.push(s);}spans.forEach((s,i)=>setTimeout(()=>{s.classList.remove('is-dot');s.classList.add('is-reveal');},delay+i*55));}
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('visible');e.target.querySelectorAll('.dot-type').forEach((el,i)=>setTimeout(()=>runDotType(el,0),i*180));});},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
-const API='https://eigenlock-sdk-production.up.railway.app';
+const API='https://qubit-shield-sdk-production.up.railway.app';
 const AKEY='qs_demo_lunareclipse_2026';
 let env=null;
 function setDemoStatus(state,text){document.getElementById('demoStatusDot').className='sdot '+state;document.getElementById('demoStatusText').textContent=text;}
