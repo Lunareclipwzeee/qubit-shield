@@ -202,7 +202,7 @@ app.get('/',(req,res)=>res.json({name:'EIGENLOCK API',version:'1.0.0',company:'L
 
 app.get('/v1/health',async(req,res)=>{
   const r=await pool.query('SELECT COUNT(*) FROM companies');
-  res.json({ok:true,status:'operational',version:'1.0.0',engine:'QubitShield-v1',algorithms:['CRYSTALS-Kyber-768','AES-256-GCM','CRYSTALS-Dilithium-3'],timestamp:new Date().toISOString(),uptime:Math.floor(process.uptime()),totalCompanies:parseInt(r.rows[0].count)});
+  res.json({ok:true,status:'operational',version:'1.0.0',engine:'EIGENLOCK-v1',algorithms:['CRYSTALS-Kyber-768','AES-256-GCM','CRYSTALS-Dilithium-3'],timestamp:new Date().toISOString(),uptime:Math.floor(process.uptime()),totalCompanies:parseInt(r.rows[0].count)});
 });
 
 app.post('/v1/encrypt', rateLimit(60, 60*1000),authenticate,async(req,res)=>{
