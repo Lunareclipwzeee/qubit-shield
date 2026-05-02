@@ -1,4 +1,4 @@
-# QUBIT Shield
+# EIGENLOCK
 
 > WARNING: Pre-audit software. Not formally audited. Suitable for pilots and evaluation only.
 
@@ -19,12 +19,12 @@ India first post-quantum cryptography SDK. Built on ML-KEM-768 (NIST FIPS 203).
 https://www.loom.com/share/4492f9bcb4fb47dfb588f7c3be7b698b
 
 ## Live Product
-- Website: https://qubitshield.netlify.app
-- API: https://qubit-shield-sdk-production.up.railway.app
-- Demo: https://qubitshield.netlify.app no signup needed
+- Website: https://eigenlock.in
+- API: https://eigenlock-sdk-production.up.railway.app
+- Demo: https://eigenlock.in no signup needed
 
 ## Quick Start
-npm install qubit-shield-sdk
+npm install eigenlock-sdk
 
 ## License
 Apache 2.0

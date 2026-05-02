@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QUBIT Shield — Dashboard</title>
+<title>EIGENLOCK — Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#020812;--surface:#060f1e;--surface2:#0a1628;--cyan:#06b6d4;--white:#f0f6ff;--muted:#64748b;--border:rgba(6,182,212,0.15);--green:#10b981;--red:#ef4444;--yellow:#f59e0b;}
@@ -76,7 +76,7 @@
 <div class="layout">
   <div class="sidebar">
     <div class="sb-logo">LUNAR<span>ECLIPSE</span></div>
-    <div class="sb-product">QUBIT Shield</div>
+    <div class="sb-product">EIGENLOCK</div>
     <nav class="sb-nav">
       <a href="#" class="nb">⬡ Overview</a>
       <a href="#" class="nb">⬡ API Key</a>
@@ -137,7 +137,7 @@ function render(data){
     <div class="pbar">
       <div><div class="pl">Pilot Period</div><div style="display:flex;align-items:baseline;gap:4px;margin-top:4px;"><span class="pd">${daysLeft}</span><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">days remaining</span></div></div>
       <div class="prb"><div class="prf" style="width:${progress}%"></div></div>
-      <a href="mailto:pilotsqubitshield@gmail.com?subject=QUBIT Shield Upgrade" class="ub">Upgrade Plan</a>
+      <a href="mailto:pilotsqubitshield@gmail.com?subject=EIGENLOCK Upgrade" class="ub">Upgrade Plan</a>
     </div>`:''}
     <div class="sec" style="margin-top:1px;">
       <div class="sh"><div class="st">Your API Key</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);">Keep this secret</div></div>
@@ -147,10 +147,10 @@ function render(data){
       <div class="sh"><div class="st">Quickstart</div></div>
       <div class="sb2"><div class="code">
 <span class="cm">// 1. Install</span>
-npm install qubit-shield-sdk
+npm install eigenlock-sdk
 
 <span class="cm">// 2. Initialize</span>
-<span class="ck">const</span> { QubitShield } = require(<span class="cs">'qubit-shield-sdk'</span>);
+<span class="ck">const</span> { QubitShield } = require(<span class="cs">'eigenlock-sdk'</span>);
 <span class="ck">const</span> qs = <span class="ck">new</span> QubitShield({ apiKey: <span class="cs">'${account.apiKey}'</span> });
 
 <span class="cm">// 3. Encrypt</span>
@@ -175,7 +175,7 @@ npm install qubit-shield-sdk
           <div style="background:var(--surface2);padding:20px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">This Month</div><div style="font-family:'Raleway',sans-serif;font-weight:200;font-size:22px;color:var(--cyan);">${billing.currentPlan==='pilot'?'₹0':'₹'+billing.estimatedBill.toLocaleString()}</div></div>
           <div style="background:var(--surface2);padding:20px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Next Billing</div><div style="font-family:'Raleway',sans-serif;font-weight:200;font-size:16px;">${billing.nextBillingDate?new Date(billing.nextBillingDate).toLocaleDateString():'Monthly'}</div></div>
         </div>
-        <div style="margin-top:16px;"><a href="mailto:pilotsqubitshield@gmail.com?subject=QUBIT Shield Upgrade" class="ub">Upgrade to Paid Plan</a></div>
+        <div style="margin-top:16px;"><a href="mailto:pilotsqubitshield@gmail.com?subject=EIGENLOCK Upgrade" class="ub">Upgrade to Paid Plan</a></div>
       </div>
     </div>`;
   document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('hover'));el.addEventListener('mouseleave',()=>cur.classList.remove('hover'));});
