@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QUBIT Shield — Choose Your Plan</title>
+<title>EIGENLOCK — Choose Your Plan</title>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#020812;--surface:#060f1e;--surface2:#0a1628;--cyan:#06b6d4;--white:#f0f6ff;--muted:#64748b;--border:rgba(6,182,212,0.15);--green:#10b981;--red:#ef4444;}
@@ -58,18 +58,18 @@
   <p class="subtitle">Quantum-resistant security for your enterprise</p>
 
   <div class="expired-notice" id="expiredNotice">
-    ⚠ Your 30-day free pilot has expired. Choose a plan to continue using QUBIT Shield.
+    ⚠ Your 30-day free pilot has expired. Choose a plan to continue using EIGENLOCK.
   </div>
 
   <div class="plans">
     <div class="plan">
       <div class="plan-badge">Starter</div>
-      <div class="plan-name">QUBIT Encrypt</div>
+      <div class="plan-name">EIGEN Encrypt</div>
       <div class="plan-price">₹50K</div>
       <div class="plan-period">per month per organization</div>
       <div class="plan-divider"></div>
       <ul class="plan-features">
-        <li>QUBIT Encrypt SDK</li>
+        <li>EIGEN Encrypt SDK</li>
         <li>Up to 1M encryptions/month</li>
         <li>ML-KEM-768 NIST FIPS 203</li>
         <li>REST API access</li>
@@ -80,15 +80,15 @@
     </div>
     <div class="plan featured">
       <div class="plan-badge highlight">Most Popular</div>
-      <div class="plan-name">QUBIT Shield</div>
+      <div class="plan-name">EIGENLOCK</div>
       <div class="plan-price">₹1.5L</div>
       <div class="plan-period">per month per organization</div>
       <div class="plan-divider"></div>
       <ul class="plan-features">
         <li>Everything in Starter</li>
         <li>Unlimited encryptions</li>
-        <li>QUBIT Vault — dynamic credentials</li>
-        <li>ML-DSA-65 digital signatures</li>
+        <li>EIGEN Vault — dynamic credentials</li>
+        <li>Post-quantum digital signatures</li>
         <li>Priority support</li>
         <li>Custom integration help</li>
       </ul>
@@ -102,7 +102,7 @@
       <div class="plan-divider"></div>
       <ul class="plan-features">
         <li>Everything in Shield</li>
-        <li>QUBIT Sentinel — intrusion detection</li>
+        <li>EIGEN Sentinel — intrusion detection</li>
         <li>Real-time tamper alerts</li>
         <li>On-premise deployment</li>
         <li>Dedicated support + SLA</li>
@@ -154,11 +154,11 @@
     </div>
   </div>
 
-  <a href="/" class="back-link">← Back to QUBIT Shield</a>
+  <a href="/" class="back-link">← Back to EIGENLOCK</a>
 </div>
 
 <script>
-const API = 'https://qubit-shield-sdk-production.up.railway.app';
+const API = 'https://eigenlock-sdk-production.up.railway.app';
 let selectedPlan = '';
 let selectedPrice = '';
 
@@ -175,7 +175,7 @@ if (keyParam) document.getElementById('apiKeyInput').value = keyParam;
 function selectPlan(plan, price) {
   selectedPlan = plan;
   selectedPrice = price;
-  const names = { starter: 'Starter — QUBIT Encrypt', shield: 'Shield — Encrypt + Vault', enterprise: 'Enterprise — Full Stack' };
+  const names = { starter: 'Starter — EIGEN Encrypt', shield: 'Shield — Encrypt + Vault', enterprise: 'Enterprise — Full Stack' };
   document.getElementById('formTitle').textContent = 'Upgrade to ' + names[plan];
   document.getElementById('requestForm').style.display = 'block';
   document.getElementById('requestForm').scrollIntoView({ behavior: 'smooth' });
