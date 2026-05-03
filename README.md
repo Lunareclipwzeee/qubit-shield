@@ -30,4 +30,4 @@ npm install eigenlock-sdk
 Apache 2.0
 
 ## Contact
-LUNARECLIPSE pilotsqubitshield@gmail.com
+LUNARECLIPSE pilots@eigenlock.in

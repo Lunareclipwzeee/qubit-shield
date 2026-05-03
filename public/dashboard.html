@@ -84,7 +84,7 @@
       <a href="#" class="nb">⬡ Quickstart</a>
       <a href="#" class="nb">⬡ Billing</a>
     </nav>
-    <div class="sb-foot">Support<br>pilotsqubitshield@gmail.com<br><br>© 2026 LUNARECLIPSE</div>
+    <div class="sb-foot">Support<br>pilots@eigenlock.in<br><br>© 2026 LUNARECLIPSE</div>
   </div>
   <div class="main" id="mainContent">
     <div class="ld">Loading your dashboard...</div>
@@ -137,7 +137,7 @@ function render(data){
     <div class="pbar">
       <div><div class="pl">Pilot Period</div><div style="display:flex;align-items:baseline;gap:4px;margin-top:4px;"><span class="pd">${daysLeft}</span><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">days remaining</span></div></div>
       <div class="prb"><div class="prf" style="width:${progress}%"></div></div>
-      <a href="mailto:pilotsqubitshield@gmail.com?subject=EIGENLOCK Upgrade" class="ub">Upgrade Plan</a>
+      <a href="mailto:pilots@eigenlock.in?subject=EIGENLOCK Upgrade" class="ub">Upgrade Plan</a>
     </div>`:''}
     <div class="sec" style="margin-top:1px;">
       <div class="sh"><div class="st">Your API Key</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);">Keep this secret</div></div>
@@ -175,7 +175,7 @@ npm install eigenlock-sdk
           <div style="background:var(--surface2);padding:20px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">This Month</div><div style="font-family:'Raleway',sans-serif;font-weight:200;font-size:22px;color:var(--cyan);">${billing.currentPlan==='pilot'?'₹0':'₹'+billing.estimatedBill.toLocaleString()}</div></div>
           <div style="background:var(--surface2);padding:20px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Next Billing</div><div style="font-family:'Raleway',sans-serif;font-weight:200;font-size:16px;">${billing.nextBillingDate?new Date(billing.nextBillingDate).toLocaleDateString():'Monthly'}</div></div>
         </div>
-        <div style="margin-top:16px;"><a href="mailto:pilotsqubitshield@gmail.com?subject=EIGENLOCK Upgrade" class="ub">Upgrade to Paid Plan</a></div>
+        <div style="margin-top:16px;"><a href="mailto:pilots@eigenlock.in?subject=EIGENLOCK Upgrade" class="ub">Upgrade to Paid Plan</a></div>
       </div>
     </div>`;
   document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('hover'));el.addEventListener('mouseleave',()=>cur.classList.remove('hover'));});
