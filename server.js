@@ -423,6 +423,29 @@ app.post('/admin/setplan',async(req,res)=>{
   res.json({ok:true,message:`Plan updated to ${plan}`,company:company.name,email:company.email,plan:company.plan});
 });
 
+
+app.post('/platform/early-access',async(req,res)=>{
+  try{
+    const{name,email,company,message}=req.body;
+    if(!name||!email) return res.status(400).json({ok:false,error:'name and email required'});
+    const html=`<div style="background:#020812;padding:40px;font-family:Arial,sans-serif;color:#f0f6ff;">
+      <h2 style="color:#06b6d4;">New Early Access Interest</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Company:</strong> ${company||'Not provided'}</p>
+      <p><strong>Message:</strong> ${message||'None'}</p>
+    </div>`;
+    const payload=JSON.stringify({from:'EIGENLOCK <onboarding@resend.dev>',to:['murthybondu7@gmail.com'],reply_to:'pilotsqubitshield@gmail.com',subject:`EIGENLOCK Early Access — ${name} from ${company||'Unknown'}`,html});
+    await new Promise((resolve,reject)=>{
+      const https=require('https');
+      const options={hostname:'api.resend.com',path:'/emails',method:'POST',headers:{'Authorization':`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json','Content-Length':Buffer.byteLength(payload)}};
+      const r=https.request(options,res=>{let d='';res.on('data',x=>d+=x);res.on('end',()=>resolve(d));});
+      r.on('error',reject);r.write(payload);r.end();
+    });
+    res.json({ok:true,message:'Received. We will reach out within 24 hours.'});
+  }catch(err){res.status(400).json({ok:false,error:err.message});}
+});
+
 app.use((req,res)=>res.status(404).json({ok:false,error:'Not found'}));
 
 app.listen(PORT,'0.0.0.0',()=>{
