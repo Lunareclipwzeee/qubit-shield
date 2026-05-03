@@ -147,12 +147,13 @@ async function sendEmail(to,name,company,apiKey) {
 }
 
 // Demo key — works for everyone
-const DEMO_KEY = 'qs_demo_lunareclipse_2026';
+const DEMO_KEY = 'el_demo_eigenlock_2026';
+const DEMO_KEY_OLD = 'qs_demo_lunareclipse_2026';
 
 async function authenticate(req,res,next) {
   const token=(req.headers['authorization']||'').replace('Bearer ','').trim();
-  if(!token||!token.startsWith('qs_')) return res.status(401).json({ok:false,error:'Unauthorized'});
-  if(token===DEMO_KEY){
+  if(!token||(!token.startsWith('qs_')&&!token.startsWith('el_'))) return res.status(401).json({ok:false,error:'Unauthorized'});
+  if(token===DEMO_KEY||token===DEMO_KEY_OLD||token==='qs_demo_lunareclipse_2026'){
     req.company={api_key:DEMO_KEY,name:'Demo',email:'demo@qubitshield.com',company:'Demo User',plan:'pilot',pilot_end:new Date(Date.now()+365*24*60*60*1000)};
     try{req.qs=new QubitShield({apiKey:token});}catch(e){}
     return next();
