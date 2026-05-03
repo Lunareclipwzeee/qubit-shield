@@ -1,7 +1,7 @@
 {
   "name": "eigenlock-sdk",
   "version": "1.0.0",
-  "description": "India first post-quantum cryptography SDK. ML-KEM-768 NIST FIPS 203. The mathematical lock quantum cannot break.",
+  "description": "Post-quantum security platform. ML-KEM-768 NIST FIPS 203. The mathematical lock quantum cannot break.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
