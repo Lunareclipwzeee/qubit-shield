@@ -232,16 +232,16 @@ npm install eigenlock-sdk
 
 <span style="color:var(--muted);">// Initialize</span>
 const { EigenLock } = require('eigenlock-sdk');
-const qs = new EigenLock({ apiKey: 'qs_live_your_key' });
+const el = new EigenLock({ apiKey: 'el_live_your_key' });
 
 <span style="color:var(--muted);">// Encrypt</span>
-const { envelope } = await qs.encrypt('sensitive data');
+const { envelope } = await el.encrypt('sensitive data');
 
 <span style="color:var(--muted);">// Decrypt</span>
-const { text } = await qs.decrypt(envelope);
+const { text } = await el.decrypt(envelope);
 
 <span style="color:var(--muted);">// Detect tampering</span>
-const { tampered, score } = await qs.detect(envelope);</pre>
+const { tampered, score } = await el.detect(envelope);</pre>
   </div>
 </section>
 <section id="products" class="sw reveal">
