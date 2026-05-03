@@ -1,3 +1,5 @@
+npm: https://www.npmjs.com/package/eigenlock-sdk
+
 # EIGENLOCK
 
 > WARNING: Pre-audit software. Not formally audited. Suitable for pilots and evaluation only.
