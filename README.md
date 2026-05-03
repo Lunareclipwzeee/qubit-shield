@@ -4,7 +4,7 @@ npm: https://www.npmjs.com/package/eigenlock-sdk
 
 > WARNING: Pre-audit software. Not formally audited. Suitable for pilots and evaluation only.
 
-India first post-quantum security platform. Built on ML-KEM-768 (NIST FIPS 203).
+Post-quantum security platform. Built on ML-KEM-768 (NIST FIPS 203).
 
 ## What This IS
 - Real ML-KEM-768 NIST FIPS 203 key encapsulation
@@ -22,7 +22,7 @@ https://www.loom.com/share/4492f9bcb4fb47dfb588f7c3be7b698b
 
 ## Live Product
 - Website: https://eigenlock.in
-- API: https://eigenlock-sdk-production.up.railway.app
+- API: https://qubit-shield-sdk-production.up.railway.app
 - Demo: https://eigenlock.in no signup needed
 
 ## Quick Start
