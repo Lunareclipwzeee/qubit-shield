@@ -349,7 +349,7 @@ function runDotType(el,delay){if(el.dataset.typed)return;el.dataset.typed='1';co
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('visible');e.target.querySelectorAll('.dot-type').forEach((el,i)=>setTimeout(()=>runDotType(el,0),i*180));});},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 const API='https://qubit-shield-sdk-production.up.railway.app';
-const AKEY='qs_demo_lunareclipse_2026';
+const AKEY='el_demo_eigenlock_2026';
 let env=null;
 function setDemoStatus(state,text){document.getElementById('demoStatusDot').className='sdot '+state;document.getElementById('demoStatusText').textContent=text;}
 function revealChars(el,text,color){el.style.color=color;el.classList.remove('empty');el.innerHTML='';text.split('').forEach((ch,i)=>{const s=document.createElement('span');s.textContent=ch===' '?'\u00a0':ch;s.style.opacity='0';el.appendChild(s);setTimeout(()=>{s.style.transition='opacity 0.05s';s.style.opacity='1';},i*15);});}
