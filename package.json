@@ -1,7 +1,7 @@
 {
-  "name": "qubit-shield-sdk",
+  "name": "eigenlock-sdk",
   "version": "1.0.0",
-  "description": "Quantum-inspired enterprise security SDK by LUNARECLIPSE",
+  "description": "India first post-quantum cryptography SDK. ML-KEM-768 NIST FIPS 203. The mathematical lock quantum cannot break.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -18,6 +18,22 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "author": "LUNARECLIPSE",
-  "license": "MIT"
+  "author": "Murthy Bondu <pilots@eigenlock.in>",
+  "license": "Apache-2.0",
+  "homepage": "https://eigenlock.in",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lunareclipwzeee/eigenlock"
+  },
+  "keywords": [
+    "post-quantum",
+    "cryptography",
+    "ml-kem-768",
+    "nist",
+    "fips-203",
+    "encryption",
+    "pqc",
+    "eigenlock",
+    "quantum-resistant"
+  ]
 }
