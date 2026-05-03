@@ -16,7 +16,7 @@
   h1{font-family:'Raleway',sans-serif;font-weight:200;font-size:36px;letter-spacing:0.02em;text-align:center;margin-bottom:8px;}
   .subtitle{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;color:var(--muted);text-align:center;margin-bottom:16px;}
   .expired-notice{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);padding:16px 24px;margin-bottom:48px;font-family:'DM Mono',monospace;font-size:12px;color:var(--red);text-align:center;display:none;}
-  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:48px;} .plan:last-child{grid-column:1/-1;max-width:400px;margin:0 auto;}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:48px;}
   .plan{background:var(--surface);padding:40px 32px;position:relative;transition:background 0.2s;}
   .plan.featured{background:var(--surface2);}
   .plan.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--cyan);}
@@ -129,6 +129,42 @@
     </div>
   </div>
 
+
+  <!-- Early Access Interest Form -->
+  <div style="background:var(--surface);border:1px solid var(--border);padding:40px;margin-bottom:48px;position:relative;">
+    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cyan),transparent);"></div>
+    <div style="text-align:center;margin-bottom:32px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;">Early Access</div>
+      <div style="font-family:'Raleway',sans-serif;font-weight:200;font-size:28px;color:var(--white);margin-bottom:8px;">Not ready to sign up yet?</div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">Tell us what you are building. We will reach out personally within 24 hours.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:600px;margin:0 auto;">
+      <input type="text" id="earlyName" placeholder="Your Name" style="background:var(--bg);border:1px solid var(--border);padding:14px 16px;font-family:'DM Mono',monospace;font-size:13px;color:var(--white);outline:none;"/>
+      <input type="email" id="earlyEmail" placeholder="Work Email" style="background:var(--bg);border:1px solid var(--border);padding:14px 16px;font-family:'DM Mono',monospace;font-size:13px;color:var(--white);outline:none;"/>
+      <input type="text" id="earlyCompany" placeholder="Company Name" style="background:var(--bg);border:1px solid var(--border);padding:14px 16px;font-family:'DM Mono',monospace;font-size:13px;color:var(--white);outline:none;"/>
+      <textarea id="earlyMessage" rows="3" placeholder="What are you building? What is your encryption challenge?" style="background:var(--bg);border:1px solid var(--border);padding:14px 16px;font-family:'DM Mono',monospace;font-size:13px;color:var(--white);outline:none;resize:none;"></textarea>
+      <button onclick="submitEarlyAccess()" style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;padding:16px;background:var(--cyan);color:var(--bg);border:none;cursor:pointer;font-weight:600;">Express Interest →</button>
+      <div id="earlySuccess" style="display:none;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);padding:16px;font-family:'DM Mono',monospace;font-size:12px;color:#10b981;text-align:center;">✓ Received. We will reach out within 24 hours.</div>
+    </div>
+  </div>
+
+  <script>
+  async function submitEarlyAccess(){
+    const name=document.getElementById('earlyName').value.trim();
+    const email=document.getElementById('earlyEmail').value.trim();
+    const company=document.getElementById('earlyCompany').value.trim();
+    const message=document.getElementById('earlyMessage').value.trim();
+    if(!name||!email) return alert('Please enter your name and email.');
+    try{
+      await fetch('https://qubit-shield-sdk-production.up.railway.app/platform/early-access',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({name,email,company,message})
+      });
+    }catch(e){}
+    document.getElementById('earlySuccess').style.display='block';
+  }
+  </script>
   <div class="request-form" id="requestForm">
     <div class="form-title" id="formTitle">Upgrade to Shield</div>
     <div class="form-sub">Fill in your details and we will activate your plan within 24 hours.</div>
