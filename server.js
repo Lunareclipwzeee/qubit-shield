@@ -216,7 +216,7 @@ app.post('/v1/encrypt', rateLimit(60, 60*1000),authenticate,async(req,res)=>{
     const result=await pqcEncrypt(data);
     const timeMs=Date.now()-start;
     await logUsage(req.company.api_key,'encrypt',timeMs);
-    res.json({ok:true,sessionId:'qs_'+require('crypto').randomBytes(16).toString('hex'),envelope:result.envelope,algorithm:result.algorithm,standard:result.standard,keySize:result.keySize,cipherSize:result.cipherSize,timeMs});
+    res.json({ok:true,sessionId:'el_'+require('crypto').randomBytes(16).toString('hex'),envelope:result.envelope,algorithm:result.algorithm,standard:result.standard,keySize:result.keySize,cipherSize:result.cipherSize,timeMs});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 
