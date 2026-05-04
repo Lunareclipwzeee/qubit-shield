@@ -1,4 +1,4 @@
-import { ml_dsa65 } from '@noble/post-quantum/ml-dsa';
+import { ml_dsa65 } from '@noble/post-quantum/ml-dsa.js';
 
 export async function mldsaSign(message) {
   const msgBytes = typeof message === 'string' ? Buffer.from(message, 'utf8') : message;
