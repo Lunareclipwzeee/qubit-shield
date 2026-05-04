@@ -1,9 +1,10 @@
 [build]
 builder = "nixpacks"
 
+[build.environment]
+NODE_VERSION = "22"
+
 [deploy]
-[build]
-environment = { NODE_VERSION = "22" }
 startCommand = "node server.js"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
