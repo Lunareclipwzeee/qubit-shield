@@ -252,9 +252,10 @@ app.post('/v1/sign', rateLimit(60, 60*1000),authenticate,async(req,res)=>{
   try{
     const{data}=req.body;
     if(!data) return res.status(400).json({ok:false,error:'data is required'});
-    const sig=require('crypto').createHmac('sha256',req.company.api_key).update(data).digest('hex');
-    await logUsage(req.company.api_key,'sign',0);
-    res.json({ok:true,signature:sig,algorithm:'HMAC-SHA256',standard:'Pending ML-DSA-65 — Node upgrade required'});
+    const { mldsaSign } = await getMLDSA();
+    const result = await mldsaSign(data);
+    await logUsage(req.company.api_key,'sign',result.sigSize||0);
+    res.json({ok:true,...result});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 
@@ -263,10 +264,10 @@ app.post('/v1/verify', rateLimit(60, 60*1000),authenticate,async(req,res)=>{
     const{data,signature,publicKey}=req.body;
     if(!data||!signature) return res.status(400).json({ok:false,error:'data and signature required'});
     if(!publicKey) return res.status(400).json({ok:false,error:'publicKey required for ML-DSA-65'});
-    const expected=require('crypto').createHmac('sha256',req.company.api_key).update(data).digest('hex');
-    const valid = signature === expected;
+    const { mldsaVerify } = await getMLDSA();
+    const result = await mldsaVerify(data, signature, publicKey);
     await logUsage(req.company.api_key,'verify',0);
-    res.json({ok:true,valid,algorithm:'HMAC-SHA256',standard:'Pending ML-DSA-65 — Node upgrade required'});
+    res.json({ok:true,...result});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 
