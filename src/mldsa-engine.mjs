@@ -1,8 +1,9 @@
 import { ml_dsa65 } from '@noble/post-quantum/ml-dsa.js';
+import { randomBytes } from 'crypto';
 
 export async function mldsaSign(message) {
   const msgBytes = typeof message === 'string' ? Buffer.from(message, 'utf8') : message;
-  const seed = crypto.getRandomValues(new Uint8Array(32));
+  const seed = new Uint8Array(randomBytes(32));
   const keys = ml_dsa65.keygen(seed);
   const signature = ml_dsa65.sign(keys.secretKey, msgBytes);
   return {
