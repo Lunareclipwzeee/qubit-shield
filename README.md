@@ -22,7 +22,7 @@ https://www.loom.com/share/4492f9bcb4fb47dfb588f7c3be7b698b
 
 ## Live Product
 - Website: https://eigenlock.in
-- API: https://qubit-shield-sdk-production.up.railway.app
+- API: https://eigenlock-api.up.railway.app
 - Demo: https://eigenlock.in no signup needed
 
 ## Quick Start

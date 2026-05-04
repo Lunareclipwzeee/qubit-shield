@@ -184,9 +184,9 @@
     <li><a href="#products">Products</a></li>
     <li><a href="#demo">Live Demo</a></li>
     <li><a href="/upgrade">Pricing</a></li>
-    <li><a href="https://qubit-shield-sdk-production.up.railway.app/dashboard">Dashboard</a></li>
+    <li><a href="https://eigenlock-api.up.railway.app/dashboard">Dashboard</a></li>
   </ul>
-  <a href="https://qubit-shield-sdk-production.up.railway.app/signup" class="nav-cta">Get API Key</a>
+  <a href="https://eigenlock-api.up.railway.app/signup" class="nav-cta">Get API Key</a>
 </nav>
 <div class="hero">
   <div class="rings"><div class="ring ring-1"></div><div class="ring ring-2"></div><div class="ring ring-3"></div></div>
@@ -348,7 +348,7 @@ document.querySelectorAll('a,button,textarea').forEach(el=>{el.addEventListener(
 function runDotType(el,delay){if(el.dataset.typed)return;el.dataset.typed='1';const text=el.dataset.text||'';el.innerHTML='';const spans=[];for(let i=0;i<text.length;i++){const s=document.createElement('span');s.className='dt-char is-dot';s.textContent=text[i]===' '?'\u00a0':text[i];el.appendChild(s);spans.push(s);}spans.forEach((s,i)=>setTimeout(()=>{s.classList.remove('is-dot');s.classList.add('is-reveal');},delay+i*55));}
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('visible');e.target.querySelectorAll('.dot-type').forEach((el,i)=>setTimeout(()=>runDotType(el,0),i*180));});},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
-const API='https://qubit-shield-sdk-production.up.railway.app';
+const API='https://eigenlock-api.up.railway.app';
 const AKEY='el_demo_eigenlock_2026';
 let env=null;
 function setDemoStatus(state,text){document.getElementById('demoStatusDot').className='sdot '+state;document.getElementById('demoStatusText').textContent=text;}

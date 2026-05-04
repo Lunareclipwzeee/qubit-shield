@@ -180,7 +180,7 @@
     const message=document.getElementById('earlyMessage').value.trim();
     if(!name||!email) return alert('Please enter your name and email.');
     try{
-      await fetch('https://qubit-shield-sdk-production.up.railway.app/platform/early-access',{
+      await fetch('https://eigenlock-api.up.railway.app/platform/early-access',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({name,email,company,message})
