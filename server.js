@@ -201,6 +201,8 @@ app.get('/platform/dashboard',async(req,res)=>{
 
 app.get('/',(req,res)=>res.json({name:'EIGENLOCK API',version:'1.0.0',company:'LUNARECLIPSE',signup:'https://eigenlock.in/signup',dashboard:'https://eigenlock.in/dashboard',api:'https://eigenlock-sdk.up.railway.app'}));
 
+app.get('/v1/version',(req,res)=>res.json({node:process.version,platform:process.platform,arch:process.arch}));
+
 app.get('/v1/health',async(req,res)=>{
   const r=await pool.query('SELECT COUNT(*) FROM companies');
   res.json({ok:true,status:'operational',version:'1.0.0',engine:'EIGENLOCK-v1',algorithms:['CRYSTALS-Kyber-768','AES-256-GCM','CRYSTALS-Dilithium-3'],timestamp:new Date().toISOString(),uptime:Math.floor(process.uptime()),totalCompanies:parseInt(r.rows[0].count)});
