@@ -1,15 +1,15 @@
 'use strict';
 
 const crypto = require('crypto');
-const { QubitEncrypt } = require('../crypto/qubit-encrypt');
+const { QubitEncrypt } = require('../crypto/eigen-encrypt');
 const { QKDSession }   = require('../qkd/qkd-session');
-const { QubitFactory } = require('../core/qubit-engine');
+const { QubitFactory } = require('../core/eigen-engine');
 const { QuantumErrorCorrection } = require('../qec/steane-code');
 
-class QubitShield {
+class EigenLock {
   constructor(config = {}) {
-    if (!config.apiKey) throw new Error('QubitShield: apiKey is required');
-    if (!config.apiKey.startsWith('qs_')) throw new Error('QubitShield: invalid apiKey format');
+    if (!config.apiKey) throw new Error('EigenLock: apiKey is required');
+    if (!config.apiKey.startsWith('qs_')) throw new Error('EigenLock: invalid apiKey format');
     this._apiKey = config.apiKey;
     this._mode   = config.mode || 'hybrid';
     this._engine = new QubitEncrypt();
@@ -23,7 +23,7 @@ class QubitShield {
       const envelope = await this._engine.encrypt(data);
       this._stats.encrypted++;
       return { ok:true, envelope, sessionId:envelope.sessionId };
-    } catch(err) { this._stats.errors++; throw new Error(`QubitShield.encrypt: ${err.message}`); }
+    } catch(err) { this._stats.errors++; throw new Error(`EigenLock.encrypt: ${err.message}`); }
   }
   async decrypt(envelope) {
     this._checkInit();
@@ -31,7 +31,7 @@ class QubitShield {
       const result = await this._engine.decrypt(envelope, this._masterKey);
       this._stats.decrypted++;
       return { ok:true, ...result };
-    } catch(err) { this._stats.errors++; throw new Error(`QubitShield.decrypt: ${err.message}`); }
+    } catch(err) { this._stats.errors++; throw new Error(`EigenLock.decrypt: ${err.message}`); }
   }
   async detect(envelope) {
     this._checkInit();
@@ -39,7 +39,7 @@ class QubitShield {
       const result = await this._engine.detect(envelope, this._masterKey);
       this._stats.detected++;
       return { ok:true, ...result };
-    } catch(err) { this._stats.errors++; throw new Error(`QubitShield.detect: ${err.message}`); }
+    } catch(err) { this._stats.errors++; throw new Error(`EigenLock.detect: ${err.message}`); }
   }
   sign(data) { this._checkInit(); return this._engine.sign(data, this._masterKey); }
   verify(data, signature) { this._checkInit(); return this._engine.verify(data, signature, this._masterKey); }
@@ -65,11 +65,11 @@ class QubitShield {
     };
   }
   status() {
-    return { ok:true, version:'1.0.0', mode:this._mode, engine:'QubitShield-v1',
+    return { ok:true, version:'1.0.0', mode:this._mode, engine:'EigenLock-v1',
       algorithms:['QKD-BB84','AES-256-GCM','STEANE-7-QEC','HMAC-SHA256'],
       stats:{...this._stats}, uptime:process.uptime(), timestamp:new Date().toISOString() };
   }
-  _checkInit() { if (!this._initialized) throw new Error('QubitShield: not initialized'); }
+  _checkInit() { if (!this._initialized) throw new Error('EigenLock: not initialized'); }
 }
 
-module.exports = { QubitShield };
+module.exports = { EigenLock };

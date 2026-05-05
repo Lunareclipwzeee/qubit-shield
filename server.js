@@ -4,7 +4,7 @@ const crypto  = require('crypto');
 const path    = require('path');
 const https   = require('https');
 const { Pool } = require('pg');
-const { QubitShield } = require('./src/sdk/index');
+const { EigenLock } = require('./src/sdk/index');
 let pqcEngine = null;
 async function getPQC() {
   if (!pqcEngine) {
@@ -22,8 +22,8 @@ async function getMLDSA() {
   }
   return mldsaEngine;
 }
-const { QubitVault }    = require('./src/vault');
-const { QubitSentinel } = require('./src/sentinel');
+const { EigenVault }    = require('./src/vault');
+const { EigenSentinel } = require('./src/sentinel');
 
 
 // ── Rate Limiting ──────────────────────────────────────────
@@ -137,7 +137,7 @@ function daysLeft(c) { return Math.max(0,Math.ceil((new Date(c.pilot_end)-new Da
 
 async function sendEmail(to,name,company,apiKey) {
   return new Promise((resolve,reject)=>{
-    const html=`<!DOCTYPE html><html><body style="margin:0;padding:0;background:#020812;font-family:Arial,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#020812;padding:40px 0;"><tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="background:#060f1e;border:1px solid rgba(6,182,212,0.2);max-width:600px;"><tr><td style="padding:40px;border-bottom:1px solid rgba(6,182,212,0.15);text-align:center;"><div style="font-size:22px;letter-spacing:8px;text-transform:uppercase;color:#64748b;">QUBIT</div><div style="font-size:28px;letter-spacing:4px;text-transform:uppercase;color:#06b6d4;margin-top:4px;">SHIELD</div><div style="font-size:11px;letter-spacing:3px;color:#64748b;margin-top:4px;">A LUNARECLIPSE Technology</div></td></tr><tr><td style="padding:40px;"><p style="font-size:22px;color:#f0f6ff;margin:0 0 8px;">Welcome, ${name}! 🛡️</p><p style="font-size:14px;color:#64748b;margin:0 0 32px;">Your Free Pilot is now active for <strong style="color:#f0f6ff;">${company}</strong>. Your API key is below.</p><div style="background:#0a1628;border:1px solid rgba(6,182,212,0.3);padding:24px;margin-bottom:8px;"><div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#06b6d4;margin-bottom:12px;">Your API Key</div><div style="font-family:'Courier New',monospace;font-size:14px;color:#f0f6ff;word-break:break-all;">${apiKey}</div></div><p style="font-size:11px;color:#64748b;margin:0 0 32px;">⚠️ Never share this key. Do not commit it to GitHub.</p><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;"><tr><td width="33%" style="text-align:center;background:#0a1628;border:1px solid rgba(6,182,212,0.15);padding:20px;"><div style="font-size:24px;color:#06b6d4;">256-bit</div><div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#64748b;margin-top:4px;">Quantum Key</div></td><td width="1" style="background:rgba(6,182,212,0.15);"></td><td width="33%" style="text-align:center;background:#0a1628;border:1px solid rgba(6,182,212,0.15);padding:20px;"><div style="font-size:24px;color:#06b6d4;">NIST</div><div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#64748b;margin-top:4px;">Certified</div></td><td width="1" style="background:rgba(6,182,212,0.15);"></td><td width="33%" style="text-align:center;background:#0a1628;border:1px solid rgba(6,182,212,0.15);padding:20px;"><div style="font-size:24px;color:#06b6d4;">₹0</div><div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#64748b;margin-top:4px;">Upfront Cost</div></td></tr></table><p style="font-size:14px;color:#f0f6ff;margin:0 0 16px;font-weight:600;">Get started in 2 steps:</p><div style="background:#0a1628;border:1px solid rgba(6,182,212,0.15);padding:20px;margin-bottom:8px;"><p style="font-family:'Courier New',monospace;font-size:13px;color:#06b6d4;margin:0 0 12px;">npm install eigenlock-sdk</p><p style="font-family:'Courier New',monospace;font-size:12px;color:#f0f6ff;margin:0;line-height:1.8;">const { QubitShield } = require('eigenlock-sdk');<br>const qs = new QubitShield({ apiKey: '${apiKey}' });<br><br>const { envelope } = await qs.encrypt('your data');<br>const { text } = await qs.decrypt(envelope);</p></div><div style="text-align:center;margin-top:32px;"><a href="https://eigenlock.in/dashboard?key=${apiKey}" style="display:inline-block;background:#06b6d4;color:#020812;padding:14px 32px;text-decoration:none;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:600;">View Dashboard</a></div></td></tr><tr><td style="padding:24px 40px;border-top:1px solid rgba(6,182,212,0.15);text-align:center;"><p style="font-size:11px;color:#64748b;margin:0;">Questions? <a href="mailto:pilots@eigenlock.in" style="color:#06b6d4;">pilots@eigenlock.in</a></p><p style="font-size:11px;color:#64748b;margin:8px 0 0;">© 2026 EIGENLOCK · A LUNARECLIPSE Technology</p></td></tr></table></td></tr></table></body></html>`;
+    const html=`<!DOCTYPE html><html><body style="margin:0;padding:0;background:#020812;font-family:Arial,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#020812;padding:40px 0;"><tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="background:#060f1e;border:1px solid rgba(6,182,212,0.2);max-width:600px;"><tr><td style="padding:40px;border-bottom:1px solid rgba(6,182,212,0.15);text-align:center;"><div style="font-size:22px;letter-spacing:8px;text-transform:uppercase;color:#64748b;">QUBIT</div><div style="font-size:28px;letter-spacing:4px;text-transform:uppercase;color:#06b6d4;margin-top:4px;">SHIELD</div><div style="font-size:11px;letter-spacing:3px;color:#64748b;margin-top:4px;">A LUNARECLIPSE Technology</div></td></tr><tr><td style="padding:40px;"><p style="font-size:22px;color:#f0f6ff;margin:0 0 8px;">Welcome, ${name}! 🛡️</p><p style="font-size:14px;color:#64748b;margin:0 0 32px;">Your Free Pilot is now active for <strong style="color:#f0f6ff;">${company}</strong>. Your API key is below.</p><div style="background:#0a1628;border:1px solid rgba(6,182,212,0.3);padding:24px;margin-bottom:8px;"><div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#06b6d4;margin-bottom:12px;">Your API Key</div><div style="font-family:'Courier New',monospace;font-size:14px;color:#f0f6ff;word-break:break-all;">${apiKey}</div></div><p style="font-size:11px;color:#64748b;margin:0 0 32px;">⚠️ Never share this key. Do not commit it to GitHub.</p><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;"><tr><td width="33%" style="text-align:center;background:#0a1628;border:1px solid rgba(6,182,212,0.15);padding:20px;"><div style="font-size:24px;color:#06b6d4;">256-bit</div><div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#64748b;margin-top:4px;">Quantum Key</div></td><td width="1" style="background:rgba(6,182,212,0.15);"></td><td width="33%" style="text-align:center;background:#0a1628;border:1px solid rgba(6,182,212,0.15);padding:20px;"><div style="font-size:24px;color:#06b6d4;">NIST</div><div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#64748b;margin-top:4px;">Certified</div></td><td width="1" style="background:rgba(6,182,212,0.15);"></td><td width="33%" style="text-align:center;background:#0a1628;border:1px solid rgba(6,182,212,0.15);padding:20px;"><div style="font-size:24px;color:#06b6d4;">₹0</div><div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#64748b;margin-top:4px;">Upfront Cost</div></td></tr></table><p style="font-size:14px;color:#f0f6ff;margin:0 0 16px;font-weight:600;">Get started in 2 steps:</p><div style="background:#0a1628;border:1px solid rgba(6,182,212,0.15);padding:20px;margin-bottom:8px;"><p style="font-family:'Courier New',monospace;font-size:13px;color:#06b6d4;margin:0 0 12px;">npm install eigenlock-sdk</p><p style="font-family:'Courier New',monospace;font-size:12px;color:#f0f6ff;margin:0;line-height:1.8;">const { EigenLock } = require('eigenlock-sdk');<br>const qs = new EigenLock({ apiKey: '${apiKey}' });<br><br>const { envelope } = await qs.encrypt('your data');<br>const { text } = await qs.decrypt(envelope);</p></div><div style="text-align:center;margin-top:32px;"><a href="https://eigenlock.in/dashboard?key=${apiKey}" style="display:inline-block;background:#06b6d4;color:#020812;padding:14px 32px;text-decoration:none;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:600;">View Dashboard</a></div></td></tr><tr><td style="padding:24px 40px;border-top:1px solid rgba(6,182,212,0.15);text-align:center;"><p style="font-size:11px;color:#64748b;margin:0;">Questions? <a href="mailto:pilots@eigenlock.in" style="color:#06b6d4;">pilots@eigenlock.in</a></p><p style="font-size:11px;color:#64748b;margin:8px 0 0;">© 2026 EIGENLOCK · A LUNARECLIPSE Technology</p></td></tr></table></td></tr></table></body></html>`;
     const adminHtml=`<p>New signup from <b>${name}</b> (${to}) — ${company}<br>API Key: <b>${apiKey}</b><br>Forward this email to the customer.</p>${html}`;
     const payload=JSON.stringify({from:'EIGENLOCK <onboarding@resend.dev>',to:['murthybondu7@gmail.com'],subject:`[EIGENLOCK Signup] ${name} — ${to}`,html:adminHtml});
     const options={hostname:'api.resend.com',path:'/emails',method:'POST',headers:{'Authorization':`Bearer ${RESEND_API_KEY}`,'Content-Type':'application/json','Content-Length':Buffer.byteLength(payload)}};
@@ -155,13 +155,13 @@ async function authenticate(req,res,next) {
   if(!token||(!token.startsWith('qs_')&&!token.startsWith('el_'))) return res.status(401).json({ok:false,error:'Unauthorized'});
   if(token===DEMO_KEY||token===DEMO_KEY_OLD||token==='qs_demo_lunareclipse_2026'){
     req.company={api_key:DEMO_KEY,name:'Demo',email:'demo@qubitshield.com',company:'Demo User',plan:'pilot',pilot_end:new Date(Date.now()+365*24*60*60*1000)};
-    try{req.qs=new QubitShield({apiKey:token});}catch(e){}
+    try{req.qs=new EigenLock({apiKey:token});}catch(e){}
     return next();
   }
   const company=await getCompanyByKey(token);
   if(!company) return res.status(401).json({ok:false,error:'API key not found — sign up at eigenlock.in/signup'});
   if(!isPilotActive(company)) return res.status(402).json({ok:false,error:'Pilot expired — choose a plan to continue',upgradeUrl:`/upgrade?key=${token}&expired=true`});
-  try { req.qs=new QubitShield({apiKey:token}); } catch(e) { return res.status(401).json({ok:false,error:'Invalid API key'}); }
+  try { req.qs=new EigenLock({apiKey:token}); } catch(e) { return res.status(401).json({ok:false,error:'Invalid API key'}); }
   req.company=company;
   next();
 }
@@ -274,7 +274,7 @@ app.post('/v1/vault/credential',authenticate,requireVault,async(req,res)=>{
     const{subject,scope,ttl,metadata}=req.body;
     if(!subject) return res.status(400).json({ok:false,error:'subject is required'});
     if(!scope) return res.status(400).json({ok:false,error:'scope is required'});
-    const result=QubitVault.generateCredential({subject,scope,ttlSeconds:ttl||300,apiKey:req.company.api_key,metadata:metadata||{}});
+    const result=EigenVault.generateCredential({subject,scope,ttlSeconds:ttl||300,apiKey:req.company.api_key,metadata:metadata||{}});
     await logUsage(req.company.api_key,'vault_generate',0);
     res.status(201).json({ok:true,credentialId:result.credentialId,signature:result.credential.signature,publicKey:result.credential.publicKey,algorithm:result.credential.algorithm,subject:result.credential.subject,scope:result.credential.scope,expiresIn:result.expiresIn,expiresAt:result.expiresAt,singleUse:true});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
@@ -284,7 +284,7 @@ app.post('/v1/vault/verify',authenticate,requireVault,async(req,res)=>{
   try{
     const{credentialId,signature}=req.body;
     if(!credentialId||!signature) return res.status(400).json({ok:false,error:'credentialId and signature required'});
-    const result=QubitVault.verifyCredential(credentialId,signature);
+    const result=EigenVault.verifyCredential(credentialId,signature);
     await logUsage(req.company.api_key,'vault_verify',0);
     res.json({ok:true,...result});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
@@ -294,7 +294,7 @@ app.post('/v1/vault/revoke',authenticate,requireVault,async(req,res)=>{
   try{
     const{credentialId}=req.body;
     if(!credentialId) return res.status(400).json({ok:false,error:'credentialId is required'});
-    const result=QubitVault.revokeCredential(credentialId,req.company.api_key);
+    const result=EigenVault.revokeCredential(credentialId,req.company.api_key);
     await logUsage(req.company.api_key,'vault_revoke',0);
     res.json({ok:true,...result});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
@@ -302,14 +302,14 @@ app.post('/v1/vault/revoke',authenticate,requireVault,async(req,res)=>{
 
 app.get('/v1/vault/credentials',authenticate,requireVault,(req,res)=>{
   try{
-    const result=QubitVault.listCredentials(req.company.api_key);
+    const result=EigenVault.listCredentials(req.company.api_key);
     res.json({ok:true,...result});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 
 app.get('/v1/vault/stats',authenticate,requireVault,(req,res)=>{
   try{
-    const stats=QubitVault.stats(req.company.api_key);
+    const stats=EigenVault.stats(req.company.api_key);
     res.json({ok:true,stats});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
@@ -326,7 +326,7 @@ function requireSentinel(req,res,next){
 app.post('/v1/sentinel/monitor',authenticate,requireSentinel,async(req,res)=>{
   try{
     const{objectId,data,label,ttl,alertThreshold}=req.body;
-    const result=QubitSentinel.monitor({objectId,data,label,apiKey:req.company.api_key,ttlSeconds:ttl||3600,alertThreshold:alertThreshold||0.25});
+    const result=EigenSentinel.monitor({objectId,data,label,apiKey:req.company.api_key,ttlSeconds:ttl||3600,alertThreshold:alertThreshold||0.25});
     await logUsage(req.company.api_key,'sentinel_monitor',0);
     res.status(201).json({ok:true,...result});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
@@ -335,14 +335,14 @@ app.post('/v1/sentinel/scan',authenticate,requireSentinel,async(req,res)=>{
   try{
     const{objectId,currentData}=req.body;
     if(!objectId||currentData===undefined) return res.status(400).json({ok:false,error:'objectId and currentData required'});
-    const result=QubitSentinel.scan({objectId,currentData,apiKey:req.company.api_key});
+    const result=EigenSentinel.scan({objectId,currentData,apiKey:req.company.api_key});
     await logUsage(req.company.api_key,'sentinel_scan',0);
     res.json({ok:true,...result});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 app.get('/v1/sentinel/alerts',authenticate,requireSentinel,async(req,res)=>{
   try{
-    const result=QubitSentinel.getAlerts(req.company.api_key,{status:req.query.status||'all',limit:parseInt(req.query.limit)||50});
+    const result=EigenSentinel.getAlerts(req.company.api_key,{status:req.query.status||'all',limit:parseInt(req.query.limit)||50});
     res.json({ok:true,...result});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
@@ -350,19 +350,19 @@ app.post('/v1/sentinel/resolve',authenticate,requireSentinel,async(req,res)=>{
   try{
     const{alertId,resolution}=req.body;
     if(!alertId) return res.status(400).json({ok:false,error:'alertId is required'});
-    const result=QubitSentinel.resolveAlert(alertId,req.company.api_key,resolution);
+    const result=EigenSentinel.resolveAlert(alertId,req.company.api_key,resolution);
     res.json({ok:true,...result});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 app.get('/v1/sentinel/monitored',authenticate,requireSentinel,(req,res)=>{
   try{
-    const result=QubitSentinel.listMonitored(req.company.api_key);
+    const result=EigenSentinel.listMonitored(req.company.api_key);
     res.json({ok:true,...result});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 app.get('/v1/sentinel/stats',authenticate,requireSentinel,(req,res)=>{
   try{
-    const stats=QubitSentinel.stats(req.company.api_key);
+    const stats=EigenSentinel.stats(req.company.api_key);
     res.json({ok:true,stats});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });

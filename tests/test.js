@@ -1,9 +1,9 @@
 'use strict';
 
-const { Complex, QubitState, EntangledPair, QubitRegister, QubitFactory, Gates } = require('../src/core/qubit-engine');
+const { Complex, QubitState, EntangledPair, QubitRegister, QubitFactory, Gates } = require('../src/core/eigen-engine');
 const { QuantumErrorCorrection } = require('../src/qec/steane-code');
 const { QKDSession }             = require('../src/qkd/qkd-session');
-const { QubitShield }            = require('../src/sdk/index');
+const { EigenLock }            = require('../src/sdk/index');
 
 let passed = 0, failed = 0;
 
@@ -67,9 +67,9 @@ test('QKD no-reuse',               () => { const s=QKDSession.create(); s.consum
 test('Two QKD keys different',     () => { const s1=QKDSession.create(),s2=QKDSession.create(); assert(s1.consumeKey().toString('hex')!==s2.consumeKey().toString('hex')); s1.destroy();s2.destroy(); });
 
 console.log('\n▸ Layer 8 — Public SDK');
-const qs = new QubitShield({ apiKey:'qs_test_lunareclipse2026' });
+const qs = new EigenLock({ apiKey:'qs_test_lunareclipse2026' });
 test('SDK initializes',            () => assert(qs.status().ok===true));
-test('SDK rejects bad key',        () => { let t=false; try{new QubitShield({apiKey:'bad'});}catch{t=true;} assert(t); });
+test('SDK rejects bad key',        () => { let t=false; try{new EigenLock({apiKey:'bad'});}catch{t=true;} assert(t); });
 test('Sign and verify',            () => { const {signature}=qs.sign('hello'); assert(qs.verify('hello',signature).valid===true); });
 test('Verify rejects tamper',      () => { const {signature}=qs.sign('original'); assert(qs.verify('tampered',signature).valid===false); });
 test('Raw quantum key',            () => { const {key,bits}=qs.qubit().generateKey(256); assert(key.length===64&&bits===256); });
