@@ -1,7 +1,7 @@
 'use strict';
 
 const crypto = require('crypto');
-const { QubitFactory, Gates } = require('../core/qubit-engine');
+const { EigenFactory, Gates } = require('../core/eigen-engine');
 
 const BASIS = { RECTILINEAR: 'rectilinear', DIAGONAL: 'diagonal' };
 
@@ -20,7 +20,7 @@ class QKDSession {
     for (let i = 0; i < oversample; i++) {
       const basis = this._randomBasis(), bitValue = this._randomBit();
       senderBases.push(basis);
-      const q = QubitFactory.zero();
+      const q = EigenFactory.zero();
       if (bitValue === 1) q.applyGate(Gates.X);
       if (basis === BASIS.DIAGONAL) q.applyGate(Gates.H);
       preparedStates.push({ qubit: q, bit: bitValue, basis });

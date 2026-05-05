@@ -5,7 +5,7 @@ const alertStore=new Map();
 setInterval(()=>{const now=Date.now();for(const[id,obj]of monitoredObjects)if(obj.expiresAt&&now>obj.expiresAt)monitoredObjects.delete(id);},5*60*1000).unref();
 function computeSyndrome(data){const n=typeof data==='string'?data:JSON.stringify(data);return{sha256:crypto.createHash('sha256').update(n).digest('hex'),sha512:crypto.createHash('sha512').update(n).digest('hex'),length:n.length,checksum:n.split('').reduce((a,c)=>a+c.charCodeAt(0),0)%65536};}
 function compareSyndromes(b,c){const m=[];if(b.sha256!==c.sha256)m.push('sha256_mismatch');if(b.sha512!==c.sha512)m.push('sha512_mismatch');if(b.length!==c.length)m.push('length_changed');if(b.checksum!==c.checksum)m.push('checksum_mismatch');const score=m.length/4;return{tampered:m.length>0,score:parseFloat(score.toFixed(4)),mismatches:m,confidence:m.length>=2?'high':m.length===1?'medium':'none'};}
-class QubitSentinel{
+class EigenSentinel{
   static monitor({objectId,data,label,apiKey,ttlSeconds=3600,alertThreshold=0.25}){
     if(!objectId)throw new Error('objectId is required');
     if(data===undefined)throw new Error('data is required');
@@ -60,4 +60,4 @@ class QubitSentinel{
     return{monitored,totalScans,openAlerts,resolvedAlerts,totalAlerts:openAlerts+resolvedAlerts};
   }
 }
-module.exports={QubitSentinel};
+module.exports={EigenSentinel};

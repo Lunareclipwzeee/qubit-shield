@@ -5,7 +5,7 @@ setInterval(() => { const now=Date.now(); for(const [id,c] of credentialStore) i
 function generateKeyPair(){const pk=crypto.randomBytes(32);const pub=crypto.createHmac('sha256',pk).update('qubit-vault-keypair-v1').digest();return{privateKey:pk,publicKey:pub};}
 function signCred(data,pk){return crypto.createHmac('sha256',pk).update(typeof data==='string'?data:JSON.stringify(data)).digest('hex');}
 function verifySig(data,sig,pub){const exp=crypto.createHmac('sha256',pub).update(typeof data==='string'?data:JSON.stringify(data)).digest('hex');try{return crypto.timingSafeEqual(Buffer.from(exp,'hex'),Buffer.from(sig,'hex'));}catch{return false;}}
-class QubitVault{
+class EigenVault{
   static generateCredential({subject,scope,ttlSeconds=300,apiKey,metadata={}}){
     const {privateKey,publicKey}=generateKeyPair();
     const id='qv_cred_'+crypto.randomBytes(12).toString('hex');
@@ -47,4 +47,4 @@ class QubitVault{
     return{active,used,expired,revoked,total:active+used+expired+revoked};
   }
 }
-module.exports={QubitVault};
+module.exports={EigenVault};
