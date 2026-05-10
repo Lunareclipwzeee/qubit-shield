@@ -277,6 +277,7 @@ function requireVault(req,res,next) {
 app.get('/signup',(req,res)=>res.sendFile(path.join(__dirname,'public','signup.html')));
 app.get('/dashboard',(req,res)=>res.sendFile(path.join(__dirname,'public','dashboard.html')));
 app.get('/upgrade',(req,res)=>res.sendFile(path.join(__dirname,'public','upgrade.html')));
+app.get('/admin',(req,res)=>res.sendFile(path.join(__dirname,'public','admin.html')));
 
 app.post('/platform/signup',async(req,res)=>{
   try{
