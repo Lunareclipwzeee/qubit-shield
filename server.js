@@ -150,6 +150,108 @@ async function sendEmail(to,name,company,apiKey) {
 const DEMO_KEY = 'el_demo_eigenlock_2026';
 const DEMO_KEY_OLD = 'qs_demo_lunareclipse_2026';
 
+
+// ── Pilot Expiry Notifications ─────────────────────────────
+async function sendEmail(to, subject, html) {
+  const payload = JSON.stringify({
+    from: 'EIGENLOCK <onboarding@resend.dev>',
+    to: [to],
+    reply_to: 'pilots@eigenlock.in',
+    subject,
+    html
+  });
+  return new Promise((resolve, reject) => {
+    const https = require('https');
+    const options = {
+      hostname: 'api.resend.com',
+      path: '/emails',
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(payload)
+      }
+    };
+    const r = https.request(options, res => {
+      let d = '';
+      res.on('data', x => d += x);
+      res.on('end', () => resolve(d));
+    });
+    r.on('error', reject);
+    r.write(payload);
+    r.end();
+  });
+}
+
+async function checkPilotExpiry(company) {
+  if (company.plan !== 'pilot') return;
+  const pilotEnd = new Date(company.pilot_end);
+  const now = new Date();
+  const daysLeft = Math.ceil((pilotEnd - now) / (1000 * 60 * 60 * 24));
+
+  // Already notified — check database flag
+  const notifKey = `notif_${daysLeft}`;
+  
+  if (daysLeft === 3 && !company[notifKey]) {
+    // 3 days warning
+    await pool.query('UPDATE companies SET notified_3day=$1 WHERE api_key=$2', [true, company.api_key]);
+    await sendEmail(
+      company.email,
+      'EIGENLOCK — Your free pilot expires in 3 days',
+      `<div style="background:#020812;padding:40px;font-family:Arial,sans-serif;color:#f0f6ff;">
+        <h2 style="color:#06b6d4;">Your EIGENLOCK pilot expires in 3 days</h2>
+        <p>Hi ${company.name},</p>
+        <p>Your 30-day free pilot for <strong>${company.company}</strong> expires on <strong>${pilotEnd.toDateString()}</strong>.</p>
+        <p>To continue using EIGENLOCK, choose a plan before your pilot ends.</p>
+        <a href="https://eigenlock.in/upgrade?key=${company.api_key}&expired=false" 
+           style="display:inline-block;background:#06b6d4;color:#020812;padding:14px 32px;text-decoration:none;font-weight:600;margin:16px 0;">
+          Choose Your Plan →
+        </a>
+        <p style="color:#64748b;font-size:12px;">Questions? Reply to this email or contact pilots@eigenlock.in</p>
+        <p style="color:#64748b;font-size:11px;">© 2026 EIGENLOCK · A LUNARECLIPSE Technology</p>
+      </div>`
+    );
+  } else if (daysLeft === 1 && !company.notified_1day) {
+    // 1 day warning
+    await pool.query('UPDATE companies SET notified_1day=$1 WHERE api_key=$2', [true, company.api_key]);
+    await sendEmail(
+      company.email,
+      'EIGENLOCK — Your free pilot expires TOMORROW',
+      `<div style="background:#020812;padding:40px;font-family:Arial,sans-serif;color:#f0f6ff;">
+        <h2 style="color:#ef4444;">Your EIGENLOCK pilot expires tomorrow!</h2>
+        <p>Hi ${company.name},</p>
+        <p>Your free pilot expires <strong>tomorrow</strong>. After that your API key will stop working.</p>
+        <a href="https://eigenlock.in/upgrade?key=${company.api_key}&expired=false"
+           style="display:inline-block;background:#06b6d4;color:#020812;padding:14px 32px;text-decoration:none;font-weight:600;margin:16px 0;">
+          Upgrade Now →
+        </a>
+        <p style="color:#64748b;font-size:12px;">Questions? pilots@eigenlock.in</p>
+        <p style="color:#64748b;font-size:11px;">© 2026 EIGENLOCK · A LUNARECLIPSE Technology</p>
+      </div>`
+    );
+  } else if (daysLeft <= 0 && !company.notified_expired) {
+    // Expired
+    await pool.query('UPDATE companies SET notified_expired=$1 WHERE api_key=$2', [true, company.api_key]);
+    await sendEmail(
+      company.email,
+      'EIGENLOCK — Your free pilot has expired',
+      `<div style="background:#020812;padding:40px;font-family:Arial,sans-serif;color:#f0f6ff;">
+        <h2 style="color:#ef4444;">Your EIGENLOCK pilot has expired</h2>
+        <p>Hi ${company.name},</p>
+        <p>Your 30-day free pilot has ended. Your API key is currently paused.</p>
+        <p>Choose a plan to continue protecting your data with post-quantum encryption.</p>
+        <a href="https://eigenlock.in/upgrade?key=${company.api_key}&expired=true"
+           style="display:inline-block;background:#06b6d4;color:#020812;padding:14px 32px;text-decoration:none;font-weight:600;margin:16px 0;">
+          Choose Your Plan →
+        </a>
+        <p style="color:#64748b;font-size:12px;">Questions? pilots@eigenlock.in</p>
+        <p style="color:#64748b;font-size:11px;">© 2026 EIGENLOCK · A LUNARECLIPSE Technology</p>
+      </div>`
+    );
+  }
+}
+// ───────────────────────────────────────────────────────────
+
 async function authenticate(req,res,next) {
   const token=(req.headers['authorization']||'').replace('Bearer ','').trim();
   if(!token||(!token.startsWith('qs_')&&!token.startsWith('el_'))) return res.status(401).json({ok:false,error:'Unauthorized'});
@@ -160,6 +262,7 @@ async function authenticate(req,res,next) {
   }
   const company=await getCompanyByKey(token);
   if(!company) return res.status(401).json({ok:false,error:'API key not found — sign up at eigenlock.in/signup'});
+  checkPilotExpiry(company).catch(()=>{});
   if(!isPilotActive(company)) return res.status(402).json({ok:false,error:'Pilot expired — choose a plan to continue',upgradeUrl:`/upgrade?key=${token}&expired=true`});
   try { req.qs=new EigenLock({apiKey:token}); } catch(e) { return res.status(401).json({ok:false,error:'Invalid API key'}); }
   req.company=company;
