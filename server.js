@@ -551,6 +551,36 @@ app.post('/platform/early-access',async(req,res)=>{
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
 
+
+app.get('/admin/companies',async(req,res)=>{
+  const secret=req.query.secret;
+  if(secret!=='lunareclipse_admin_2026') return res.status(401).json({ok:false});
+  try{
+    const result=await pool.query(
+      'SELECT name,email,company,role,plan,status,pilot_end,created_at FROM companies ORDER BY created_at DESC'
+    );
+    const companies=result.rows.map(r=>({
+      name:r.name,
+      email:r.email,
+      company:r.company,
+      role:r.role,
+      plan:r.plan,
+      status:r.status,
+      pilotEnd:r.pilot_end,
+      signedUp:r.created_at,
+      daysLeft:Math.ceil((new Date(r.pilot_end)-new Date())/(1000*60*60*24))
+    }));
+    res.json({
+      ok:true,
+      total:companies.length,
+      active:companies.filter(c=>c.daysLeft>0).length,
+      expired:companies.filter(c=>c.daysLeft<=0).length,
+      paid:companies.filter(c=>c.plan!=='pilot').length,
+      companies
+    });
+  }catch(err){res.status(400).json({ok:false,error:err.message});}
+});
+
 app.use((req,res)=>res.status(404).json({ok:false,error:'Not found'}));
 
 app.listen(PORT,'0.0.0.0',()=>{
