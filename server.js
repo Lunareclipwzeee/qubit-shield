@@ -302,7 +302,7 @@ app.get('/platform/dashboard',async(req,res)=>{
   res.json({ok:true,account:{name:company.name,email:company.email,company:company.company,apiKey:company.api_key,plan:company.plan,status:isPilotActive(company)?'active':'expired',pilotDaysRemaining:dl,pilotEnd:company.pilot_end,memberSince:company.created_at},usage,billing:{currentPlan:company.plan,estimatedBill:0,currency:'INR',nextBillingDate:company.pilot_end}});
 });
 
-app.get('/',(req,res)=>res.json({name:'EIGENLOCK API',version:'1.0.0',company:'LUNARECLIPSE',signup:'https://eigenlock.in/signup',dashboard:'https://eigenlock.in/dashboard',api:'https://eigenlock-sdk.up.railway.app'}));
+app.get('/',(req,res)=>res.json({name:'EIGENLOCK API',version:'1.0.0',company:'LUNARECLIPSE',signup:'https://eigenlock.in/signup',dashboard:'https://eigenlock.in/dashboard',api:'https://eigenlock-api.up.railway.app'}));
 
 app.get('/v1/version',(req,res)=>res.json({node:process.version,platform:process.platform,arch:process.arch}));
 
