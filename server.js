@@ -112,7 +112,7 @@ app.use((req, res, next) => {
   next();
 });
 
-function generateKey() { return 'qs_live_' + crypto.randomBytes(16).toString('hex'); }
+function generateKey() { return 'el_live_' + crypto.randomBytes(16).toString('hex'); }
 async function getCompanyByKey(key) { const r=await pool.query('SELECT * FROM companies WHERE api_key=$1',[key]); return r.rows[0]||null; }
 async function getCompanyByEmail(email) { const r=await pool.query('SELECT * FROM companies WHERE email=$1',[email]); return r.rows[0]||null; }
 async function createCompany({name,email,company,role,apiKey}) {
