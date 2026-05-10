@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EIGENLOCK — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#020812;--surface:#060f1e;--surface2:#0a1628;--cyan:#06b6d4;--white:#f0f6ff;--muted:#64748b;--border:rgba(6,182,212,0.15);--green:#10b981;--red:#ef4444;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh;padding:24px;}
+  .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+  .logo{font-family:'Raleway',sans-serif;font-weight:200;font-size:18px;letter-spacing:0.2em;color:var(--cyan);}
+  .login-box{background:var(--surface);border:1px solid var(--border);padding:40px;max-width:400px;margin:80px auto;}
+  .login-box h2{font-family:'Raleway',sans-serif;font-weight:200;font-size:24px;margin-bottom:24px;}
+  input{width:100%;background:var(--surface2);border:1px solid var(--border);padding:12px 16px;font-family:'DM Mono',monospace;font-size:13px;color:var(--white);outline:none;margin-bottom:12px;}
+  button{width:100%;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:14px;background:var(--cyan);color:var(--bg);border:none;cursor:pointer;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+  .stat{background:var(--surface);border:1px solid var(--border);padding:20px;position:relative;}
+  .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--cyan);}
+  .stat-num{font-family:'Raleway',sans-serif;font-weight:200;font-size:36px;color:var(--cyan);}
+  .stat-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--muted);margin-top:4px;}
+  table{width:100%;border-collapse:collapse;}
+  th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--cyan);padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);background:var(--surface);}
+  td{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);padding:12px 16px;border-bottom:1px solid rgba(6,182,212,0.05);}
+  td.name{color:var(--white);}
+  .badge{display:inline-block;padding:2px 8px;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;}
+  .badge.active{background:rgba(16,185,129,0.1);color:var(--green);border:1px solid rgba(16,185,129,0.2);}
+  .badge.expired{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2);}
+  .badge.paid{background:rgba(6,182,212,0.1);color:var(--cyan);border:1px solid var(--border);}
+  .del-btn{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:var(--red);font-family:'DM Mono',monospace;font-size:9px;padding:4px 10px;cursor:pointer;letter-spacing:0.1em;}
+  .refresh-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 20px;background:transparent;color:var(--cyan);border:1px solid var(--cyan);cursor:pointer;}
+  #dashboard{display:none;}
+  #loginBox{display:block;}
+</style>
+</head>
+<body>
+
+<div id="loginBox" class="login-box">
+  <h2>EIGENLOCK Admin</h2>
+  <input type="password" id="secretInput" placeholder="Admin secret key" onkeydown="if(event.key==='Enter')login()"/>
+  <button onclick="login()">Access Dashboard →</button>
+  <div id="loginError" style="color:var(--red);font-family:DM Mono,monospace;font-size:11px;margin-top:12px;"></div>
+</div>
+
+<div id="dashboard">
+  <div class="header">
+    <div class="logo">EIGENLOCK — Admin Dashboard</div>
+    <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
+  </div>
+
+  <div class="stats" id="statsRow"></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Company</th>
+        <th>Plan</th>
+        <th>Status</th>
+        <th>Days Left</th>
+        <th>Signed Up</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="companiesTable"></tbody>
+  </table>
+</div>
+
+<script>
+const API = 'https://eigenlock-api.up.railway.app';
+let SECRET = '';
+
+async function login() {
+  SECRET = document.getElementById('secretInput').value.trim();
+  const res = await fetch(`${API}/admin/companies?secret=${SECRET}`);
+  const data = await res.json();
+  if (!data.ok) {
+    document.getElementById('loginError').textContent = 'Invalid secret key.';
+    return;
+  }
+  document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  renderData(data);
+}
+
+async function loadData() {
+  const res = await fetch(`${API}/admin/companies?secret=${SECRET}`);
+  const data = await res.json();
+  renderData(data);
+}
+
+function renderData(data) {
+  // Stats
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat"><div class="stat-num">${data.total}</div><div class="stat-lbl">Total Signups</div></div>
+    <div class="stat"><div class="stat-num">${data.active}</div><div class="stat-lbl">Active Pilots</div></div>
+    <div class="stat"><div class="stat-num">${data.expired}</div><div class="stat-lbl">Expired Pilots</div></div>
+    <div class="stat"><div class="stat-num">${data.paid}</div><div class="stat-lbl">Paying Customers</div></div>
+  `;
+
+  // Table
+  const tbody = document.getElementById('companiesTable');
+  if (data.companies.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--muted);">No customers yet. Share eigenlock.in to get your first signup.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.companies.map(c => `
+    <tr>
+      <td class="name">${c.name}</td>
+      <td>${c.email}</td>
+      <td>${c.company}</td>
+      <td><span class="badge ${c.plan==='pilot'?'active':'paid'}">${c.plan}</span></td>
+      <td><span class="badge ${c.daysLeft>0?'active':'expired'}">${c.daysLeft>0?'Active':'Expired'}</span></td>
+      <td style="color:${c.daysLeft<=3?'var(--red)':c.daysLeft<=7?'#f59e0b':'var(--green)'}">${c.daysLeft>0?c.daysLeft+' days':'Expired'}</td>
+      <td>${new Date(c.signedUp).toLocaleDateString('en-IN')}</td>
+      <td><button class="del-btn" onclick="deleteCompany('${c.email}')">Delete</button></td>
+    </tr>
+  `).join('');
+}
+
+async function deleteCompany(email) {
+  if (!confirm('Delete ' + email + '?')) return;
+  const res = await fetch(`${API}/admin/deletecompany?secret=${SECRET}&email=${encodeURIComponent(email)}`, {method:'DELETE'});
+  const data = await res.json();
+  if (data.ok) loadData();
+  else alert('Error: ' + data.error);
+}
+</script>
+</body>
+</html>
