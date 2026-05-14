@@ -234,18 +234,7 @@
 <span style="color:var(--muted);">// Integration guide sent to your email</span>
 <span style="color:#06b6d4);">// One integration. Protected forever.</span>
 
-<span style="color:var(--muted);">// Initialize</span>
-const { EigenLock } = require('eigenlock-sdk');
-const el = new EigenLock({ apiKey: 'el_live_your_key' });
-
-<span style="color:var(--muted);">// Encrypt</span>
-const { envelope } = await el.encrypt('sensitive data');
-
-<span style="color:var(--muted);">// Decrypt</span>
-const { text } = await el.decrypt(envelope);
-
-<span style="color:var(--muted);">// Detect tampering</span>
-const { tampered, score } = await el.detect(envelope);</pre>
+<span style="color:var(--muted);">// Initialize</span></pre>
   </div>
 </section>
 <section id="products" class="sw reveal">
