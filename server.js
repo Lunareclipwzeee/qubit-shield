@@ -290,42 +290,50 @@ app.post('/platform/signup',async(req,res)=>{
     await logUsage(apiKey,'signup',0);
     try {
       const welcomeHtml = `<!DOCTYPE html>
-<html><head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#ffffff;font-family:Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0">
-<tr><td align="center" style="padding:40px 20px;background:#ffffff;">
-<table width="560" cellpadding="0" cellspacing="0" style="border:2px solid #06b6d4;">
-<tr><td style="background:#06b6d4;padding:20px 32px;">
-<p style="font-size:22px;color:#000000;margin:0;font-weight:bold;">EIGENLOCK</p>
-<p style="font-size:10px;color:#000000;margin:4px 0 0;letter-spacing:2px;">POST-QUANTUM SECURITY · NIST FIPS 203</p>
+<html>
+<head><meta charset="UTF-8">
+<style>
+body{background-color:#020812;}
+.wrap{background-color:#020812;}
+.box{background-color:#0a1628;}
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#020812;font-family:Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" bgcolor="#020812">
+<tr><td align="center" style="padding:40px 20px;" bgcolor="#020812">
+<table width="560" cellpadding="0" cellspacing="0" bgcolor="#020812" style="border:1px solid #06b6d4;">
+<tr><td bgcolor="#06b6d4" style="padding:24px 32px;">
+<p style="font-size:22px;color:#020812;margin:0;font-weight:bold;font-family:Arial;">EIGENLOCK</p>
+<p style="font-size:10px;color:#020812;margin:4px 0 0;font-family:Arial;letter-spacing:2px;">POST-QUANTUM SECURITY · NIST FIPS 203</p>
 </td></tr>
-<tr><td style="background:#ffffff;padding:32px;">
-<p style="font-size:15px;color:#000000;margin:0 0 16px;">Hi <strong>${name}</strong>,</p>
-<p style="font-size:13px;color:#444444;margin:0 0 24px;line-height:1.6;">Your 30-day free pilot for <strong>${company}</strong> is now active. Your API key is below.</p>
-<table width="100%" cellpadding="0" cellspacing="0" style="border:2px solid #06b6d4;margin-bottom:24px;">
-<tr><td style="background:#e0f7fa;padding:20px;">
-<p style="font-size:9px;color:#000000;margin:0 0 10px;text-transform:uppercase;letter-spacing:3px;">Your API Key</p>
-<p style="font-family:Courier New,monospace;font-size:15px;color:#0077aa;margin:0;word-break:break-all;"><strong>${apiKey}</strong></p>
+<tr><td bgcolor="#020812" style="padding:32px;">
+<p style="font-size:15px;color:#f0f6ff;margin:0 0 16px;font-family:Arial;">Hi <strong style="color:#06b6d4;">${name}</strong>,</p>
+<p style="font-size:13px;color:#94a3b8;margin:0 0 24px;line-height:1.6;font-family:Arial;">Your 30-day free pilot for <strong style="color:#f0f6ff;">${company}</strong> is now active.</p>
+<table width="100%" cellpadding="0" cellspacing="0" bgcolor="#0a1628" style="border:1px solid #06b6d4;margin-bottom:24px;">
+<tr><td bgcolor="#0a1628" style="padding:20px;">
+<p style="font-size:9px;color:#64748b;margin:0 0 10px;text-transform:uppercase;letter-spacing:3px;font-family:Arial;">Your API Key</p>
+<p style="font-family:Courier New,monospace;font-size:15px;color:#06b6d4;margin:0;word-break:break-all;">${apiKey}</p>
 </td></tr>
 </table>
-<p style="font-size:13px;color:#000000;margin:0 0 8px;font-weight:bold;">Next Steps:</p>
-<p style="font-size:13px;color:#444444;margin:0 0 6px;">1. Save your API key above</p>
-<p style="font-size:13px;color:#444444;margin:0 0 6px;">2. Visit <a href="https://eigenlock-api.up.railway.app/dashboard" style="color:#06b6d4;">eigenlock.in/dashboard</a> and enter your API key</p>
-<p style="font-size:13px;color:#444444;margin:0 0 24px;">3. Reply to this email for integration support</p>
+<p style="font-size:12px;color:#f0f6ff;margin:0 0 12px;font-weight:bold;font-family:Arial;">Next Steps</p>
+<p style="font-size:13px;color:#94a3b8;margin:0 0 6px;font-family:Arial;">1. Save your API key above</p>
+<p style="font-size:13px;color:#94a3b8;margin:0 0 6px;font-family:Arial;">2. Visit eigenlock.in/dashboard and enter your API key</p>
+<p style="font-size:13px;color:#94a3b8;margin:0 0 24px;font-family:Arial;">3. Reply to this email for integration support</p>
 <table width="100%" cellpadding="0" cellspacing="0">
 <tr><td align="center" style="padding:8px 0;">
-<a href="https://eigenlock-api.up.railway.app/dashboard?key=${apiKey}" style="display:inline-block;background:#06b6d4;color:#000000;padding:14px 40px;text-decoration:none;font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">View Dashboard →</a>
+<a href="https://eigenlock-api.up.railway.app/dashboard?key=${apiKey}" style="display:inline-block;background-color:#06b6d4;color:#020812;padding:14px 40px;text-decoration:none;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:2px;font-family:Arial;">View Dashboard</a>
 </td></tr>
 </table>
 </td></tr>
-<tr><td style="background:#f5f5f5;padding:16px 32px;text-align:center;border-top:1px solid #dddddd;">
-<p style="font-size:11px;color:#666666;margin:0;">Questions? <a href="mailto:eigenlock@gmail.com" style="color:#06b6d4;">eigenlock@gmail.com</a></p>
-<p style="font-size:11px;color:#666666;margin:6px 0 0;">© 2026 EIGENLOCK · A LUNARECLIPSE Technology</p>
+<tr><td bgcolor="#060f1e" style="padding:16px 32px;text-align:center;border-top:1px solid #0a1628;">
+<p style="font-size:11px;color:#475569;margin:0;font-family:Arial;">Questions? <a href="mailto:eigenlock@gmail.com" style="color:#06b6d4;text-decoration:none;">eigenlock@gmail.com</a></p>
+<p style="font-size:11px;color:#475569;margin:6px 0 0;font-family:Arial;">2026 EIGENLOCK - A LUNARECLIPSE Technology</p>
 </td></tr>
 </table>
 </td></tr>
 </table>
-</body></html>`;
+</body></html>
+`;
       await sendEmail(email, 'Welcome to EIGENLOCK — Your API Key Inside', welcomeHtml);
     } catch(e) { console.error('Email error:',e.message); }
     res.status(201).json({ok:true,message:'API key sent to '+email+'. Check your inbox.',plan:'pilot',pilotDays:30,pilotEnd:record.pilot_end,dashboard:'/dashboard'});
