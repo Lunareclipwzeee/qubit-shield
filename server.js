@@ -288,7 +288,35 @@ app.post('/platform/signup',async(req,res)=>{
     const apiKey=generateKey();
     const record=await createCompany({name,email,company,role,apiKey});
     await logUsage(apiKey,'signup',0);
-    try { await sendEmail(email,name,company,apiKey); } catch(e) { console.error('Email error:',e.message); }
+    try {
+      const welcomeHtml = `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#020812;font-family:Arial,sans-serif;">
+      <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:40px 20px;">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#020812;border:1px solid rgba(6,182,212,0.2);">
+      <tr><td style="padding:40px;border-bottom:1px solid rgba(6,182,212,0.15);">
+      <h1 style="font-size:28px;color:#f0f6ff;margin:0 0 8px;font-weight:300;">Welcome to <span style="color:#06b6d4;">EIGENLOCK</span></h1>
+      <p style="font-size:13px;color:#64748b;margin:0;">Post-quantum security infrastructure · NIST FIPS 203</p>
+      </td></tr>
+      <tr><td style="padding:40px;">
+      <p style="font-size:14px;color:#f0f6ff;margin:0 0 24px;">Hi ${name},</p>
+      <p style="font-size:14px;color:#64748b;margin:0 0 32px;">Your 30-day free pilot for <strong style="color:#f0f6ff;">${company}</strong> is now active.</p>
+      <div style="background:#0a1628;border:1px solid rgba(6,182,212,0.3);padding:24px;margin-bottom:32px;">
+      <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#64748b;margin:0 0 12px;">Your API Key</p>
+      <p style="font-family:Courier New,monospace;font-size:16px;color:#06b6d4;margin:0;word-break:break-all;">${apiKey}</p>
+      </div>
+      <p style="font-size:14px;color:#f0f6ff;margin:0 0 16px;font-weight:600;">Next steps:</p>
+      <p style="font-size:13px;color:#64748b;margin:0 0 8px;">1. Visit eigenlock.in/dashboard and enter your API key to track usage</p>
+      <p style="font-size:13px;color:#64748b;margin:0 0 8px;">2. Contact us for integration guide and documentation</p>
+      <p style="font-size:13px;color:#64748b;margin:0 0 32px;">3. Reply to this email with any questions</p>
+      <div style="text-align:center;">
+      <a href="https://eigenlock.in/dashboard?key=${apiKey}" style="display:inline-block;background:#06b6d4;color:#020812;padding:14px 32px;text-decoration:none;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:600;">View Dashboard →</a>
+      </div>
+      </td></tr>
+      <tr><td style="padding:24px 40px;border-top:1px solid rgba(6,182,212,0.15);text-align:center;">
+      <p style="font-size:11px;color:#64748b;margin:0;">Questions? <a href="mailto:eigenlock@gmail.com" style="color:#06b6d4;">eigenlock@gmail.com</a></p>
+      <p style="font-size:11px;color:#64748b;margin:8px 0 0;">© 2026 EIGENLOCK · A LUNARECLIPSE Technology</p>
+      </td></tr></table></td></tr></table></body></html>`;
+      await sendEmail(email, 'Welcome to EIGENLOCK — Your API Key Inside', welcomeHtml);
+    } catch(e) { console.error('Email error:',e.message); }
     res.status(201).json({ok:true,message:'API key sent to '+email+'. Check your inbox.',plan:'pilot',pilotDays:30,pilotEnd:record.pilot_end,dashboard:'/dashboard'});
   }catch(err){res.status(400).json({ok:false,error:err.message});}
 });
