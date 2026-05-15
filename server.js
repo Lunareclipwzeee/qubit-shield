@@ -156,7 +156,7 @@ async function sendEmail(to, subject, html) {
   const payload = JSON.stringify({
     from: 'EIGENLOCK <noreply@eigenlock.in>',
     to: [to],
-    reply_to: 'eigenlock@gmail.com',
+    reply_to: 'eigenlock.in@gmail.com',
     subject,
     html
   });
@@ -336,7 +336,7 @@ body{background-color:#020812;}
 </table>
 </td></tr>
 <tr><td bgcolor="#060f1e" style="padding:16px 32px;text-align:center;border-top:1px solid #0a1628;">
-<p style="font-size:11px;color:#475569;margin:0;font-family:Arial;">Questions? <a href="mailto:eigenlock@gmail.com" style="color:#06b6d4;text-decoration:none;">eigenlock@gmail.com</a></p>
+<p style="font-size:11px;color:#475569;margin:0;font-family:Arial;">Questions? <a href="mailto:eigenlock.in@gmail.com" style="color:#06b6d4;text-decoration:none;">eigenlock.in@gmail.com</a></p>
 <p style="font-size:11px;color:#475569;margin:6px 0 0;font-family:Arial;">2026 EIGENLOCK - A LUNARECLIPSE Technology</p>
 </td></tr>
 </table>
@@ -561,7 +561,7 @@ app.post('/platform/upgrade-request',async(req,res)=>{
       <code style="color:#06b6d4;">curl -X POST ${process.env.RAILWAY_PUBLIC_DOMAIN||'https://eigenlock-sdk-production.up.railway.app'}/admin/setplan?secret=lunareclipse_admin_2026&apiKey=${apiKey}&plan=${plan}</code></p>
     </div>`;
 
-    const payload=JSON.stringify({from:'EIGENLOCK <noreply@eigenlock.in>',to:['pilots@eigenlock.in'],reply_to:'eigenlock@gmail.com',subject:`EIGENLOCK — Plan Upgrade Request: ${plan} from ${company}`,html});
+    const payload=JSON.stringify({from:'EIGENLOCK <noreply@eigenlock.in>',to:['pilots@eigenlock.in'],reply_to:'eigenlock.in@gmail.com',subject:`EIGENLOCK — Plan Upgrade Request: ${plan} from ${company}`,html});
     await new Promise((resolve,reject)=>{
       const https=require('https');
       const options={hostname:'api.resend.com',path:'/emails',method:'POST',headers:{'Authorization':`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json','Content-Length':Buffer.byteLength(payload)}};
@@ -598,7 +598,7 @@ app.post('/platform/early-access',async(req,res)=>{
       <p><strong>Company:</strong> ${company||'Not provided'}</p>
       <p><strong>Message:</strong> ${message||'None'}</p>
     </div>`;
-    const payload=JSON.stringify({from:'EIGENLOCK <noreply@eigenlock.in>',to:['murthybondu7@gmail.com'],reply_to:'eigenlock@gmail.com',subject:`EIGENLOCK Early Access — ${name} from ${company||'Unknown'}`,html});
+    const payload=JSON.stringify({from:'EIGENLOCK <noreply@eigenlock.in>',to:['murthybondu7@gmail.com'],reply_to:'eigenlock.in@gmail.com',subject:`EIGENLOCK Early Access — ${name} from ${company||'Unknown'}`,html});
     await new Promise((resolve,reject)=>{
       const https=require('https');
       const options={hostname:'api.resend.com',path:'/emails',method:'POST',headers:{'Authorization':`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json','Content-Length':Buffer.byteLength(payload)}};
