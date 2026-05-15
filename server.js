@@ -319,6 +319,16 @@ body{background-color:#020812;}
 <p style="font-size:13px;color:#94a3b8;margin:0 0 6px;font-family:Arial;">1. Save your API key above</p>
 <p style="font-size:13px;color:#94a3b8;margin:0 0 6px;font-family:Arial;">2. Visit eigenlock.in/dashboard and enter your API key</p>
 <p style="font-size:13px;color:#94a3b8;margin:0 0 24px;font-family:Arial;">3. Reply to this email for integration support</p>
+<table width="100%" cellpadding="0" cellspacing="0" bgcolor="#0a1628" style="border:1px solid #06b6d4;margin:24px 0;">
+<tr><td bgcolor="#0a1628" style="padding:20px;">
+<p style="font-size:9px;color:#64748b;margin:0 0 12px;text-transform:uppercase;letter-spacing:3px;font-family:Arial;">Quick Start</p>
+<p style="font-family:Courier New,monospace;font-size:12px;color:#06b6d4;margin:0 0 6px;">npm install eigenlock-sdk</p>
+<p style="font-family:Courier New,monospace;font-size:12px;color:#f0f6ff;margin:0 0 4px;">const { EigenLock } = require('eigenlock-sdk');</p>
+<p style="font-family:Courier New,monospace;font-size:12px;color:#f0f6ff;margin:0 0 4px;">const el = new EigenLock({ apiKey: '${apiKey}' });</p>
+<p style="font-family:Courier New,monospace;font-size:12px;color:#94a3b8;margin:0 0 4px;">const { envelope } = await el.encrypt('your data');</p>
+<p style="font-family:Courier New,monospace;font-size:12px;color:#94a3b8;margin:0;">const { text } = await el.decrypt(envelope);</p>
+</td></tr>
+</table>
 <table width="100%" cellpadding="0" cellspacing="0">
 <tr><td align="center" style="padding:8px 0;">
 <a href="https://eigenlock-api.up.railway.app/dashboard?key=${apiKey}" style="display:inline-block;background-color:#06b6d4;color:#020812;padding:14px 40px;text-decoration:none;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:2px;font-family:Arial;">View Dashboard</a>
