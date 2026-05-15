@@ -154,7 +154,7 @@ const DEMO_KEY_OLD = 'qs_demo_lunareclipse_2026';
 // ── Pilot Expiry Notifications ─────────────────────────────
 async function sendEmail(to, subject, html) {
   const payload = JSON.stringify({
-    from: 'EIGENLOCK <onboarding@resend.dev>',
+    from: 'EIGENLOCK <noreply@eigenlock.in>',
     to: [to],
     reply_to: 'pilots@eigenlock.in',
     subject,
